@@ -32,6 +32,18 @@ public class Reflector {
         return fields;
     }
 
+    public static Constructor getConstructor(Class clazz) throws ReflectorException {
+        Assert.notNull(clazz);
+
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+
+        if (constructors.length != 1) {
+            throw ReflectorException.mustBeOnlyOneConstructor(clazz, constructors.length);
+        }
+
+        return constructors[0];
+    }
+
     private static Field findCorrespondingField(biny.core.Field fieldAnnotation, Field[] declaredFields, Class clazz) throws ReflectorException {
         Field field = null;
 
@@ -75,16 +87,6 @@ public class Reflector {
         }
 
         return null;
-    }
-
-    private static Constructor getConstructor(Class clazz) throws ReflectorException {
-        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-
-        if (constructors.length != 1) {
-            throw ReflectorException.mustBeOnlyOneConstructor(clazz, constructors.length);
-        }
-
-        return constructors[0];
     }
 
 }
