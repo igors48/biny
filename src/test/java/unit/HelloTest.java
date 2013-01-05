@@ -10,7 +10,7 @@ public class HelloTest {
 
     @Test
     public void smoke() throws Exception {
-        //Reflector.parse(ExtendedValue.class);
+        //Reflector.getFields(ExtendedValue.class);
     }
 
 }

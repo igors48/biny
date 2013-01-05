@@ -8,12 +8,12 @@ import biny.core.Field;
  */
 public class Value {
 
-    public final int intValue;
+    public final long longValue;
     public final String stringValue;
 
-    public Value(@Field("intValue") int intValue,
+    public Value(@Field("longValue") int longValue,
                  @Field("stringValue") String stringValue) {
-        this.intValue = intValue;
+        this.longValue = longValue;
         this.stringValue = stringValue;
     }
 

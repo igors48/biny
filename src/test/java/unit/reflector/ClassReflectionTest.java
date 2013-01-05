@@ -16,10 +16,10 @@ public class ClassReflectionTest {
 
     @Test
     public void allFieldReflectedInConstructorParameterOrder() throws ReflectorException {
-        List<Field> fields = Reflector.parse(Value.class);
+        List<Field> fields = Reflector.getFields(Value.class);
 
         Assert.assertEquals(2, fields.size());
-        Assert.assertEquals("intValue", fields.get(0).getName());
+        Assert.assertEquals("longValue", fields.get(0).getName());
         Assert.assertEquals("stringValue", fields.get(1).getName());
     }
 

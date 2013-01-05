@@ -18,7 +18,7 @@ public class ClassValidationTest {
 
     @Test(expected = ReflectorException.class)
     public void onlyOneConstructorMustBeDeclared() throws ReflectorException {
-        Reflector.parse(TwoConstructor.class);
+        Reflector.getFields(TwoConstructor.class);
     }
 
     //only one constructor must be declared

@@ -6,15 +6,15 @@ package unit.reflector;
  */
 public class TwoConstructor {
 
-    public final int first;
+    public final long first;
     public final String second;
 
-    public TwoConstructor(int first, String second) {
+    public TwoConstructor(long first, String second) {
         this.first = first;
         this.second = second;
     }
 
-    public TwoConstructor(String second, int first) {
+    public TwoConstructor(String second, long first) {
         this.second = second;
         this.first = first;
     }

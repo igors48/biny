@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Reflector {
 
-    public static List<Field> parse(Class clazz) throws ReflectorException {
+    public static List<Field> getFields(Class clazz) throws ReflectorException {
         Assert.notNull(clazz);
 
         List<Field> fields = new ArrayList<Field>();
