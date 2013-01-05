@@ -2,6 +2,8 @@ package biny.core;
 
 import biny.core.util.Assert;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,10 +12,31 @@ import java.util.List;
  */
 public class FieldsReader {
 
-    public static List<FieldData> readFields(Object from) {
+    public static List<FieldData> readFields(Object from) throws ReflectorException, IllegalAccessException {
         Assert.notNull(from);
 
-        return null;
+        List<FieldData> fieldDatas = new ArrayList<FieldData>();
+
+        List<Field> fields = Reflector.getFields(from.getClass());
+
+        for (Field field : fields) {
+            Class type = field.getType();
+            FieldData data = null;
+
+            if (type.getName().equalsIgnoreCase("long")) {
+                data = new FieldData<Long>(field.getName(), (Long) field.get(from));
+            }
+
+            if (type == String.class) {
+                data = new FieldData<String>(field.getName(), (String) field.get(from));
+            }
+
+            if (data != null) {
+                fieldDatas.add(data);
+            }
+        }
+
+        return fieldDatas;
     }
 
 }

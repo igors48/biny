@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class FieldsReaderTest {
 
-    private static final int LONG_VALUE = 48;
+    private static final long LONG_VALUE = 48;
     private static final String STRING_VALUE = "text";
 
     @Test
@@ -27,8 +27,8 @@ public class FieldsReaderTest {
         Assert.assertEquals(Value.LONG_VALUE_NAME, fieldDatas.get(0).name);
         Assert.assertEquals(LONG_VALUE, fieldDatas.get(0).value);
 
-        Assert.assertEquals(Value.STRING_VALUE_NAME, fieldDatas.get(0).name);
-        Assert.assertEquals(STRING_VALUE, fieldDatas.get(0).value);
+        Assert.assertEquals(Value.STRING_VALUE_NAME, fieldDatas.get(1).name);
+        Assert.assertEquals(STRING_VALUE, fieldDatas.get(1).value);
     }
 
 }

@@ -14,7 +14,7 @@ public class Value {
     public final long longValue;
     public final String stringValue;
 
-    public Value(@Field(LONG_VALUE_NAME) int longValue,
+    public Value(@Field(LONG_VALUE_NAME) long longValue,
                  @Field(STRING_VALUE_NAME) String stringValue) {
         this.longValue = longValue;
         this.stringValue = stringValue;

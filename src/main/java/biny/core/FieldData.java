@@ -6,7 +6,7 @@ import biny.core.util.Assert;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 05.01.13
  */
-public abstract class FieldData<T> {
+public class FieldData<T> {
 
     public final String name;
     public final T value;
