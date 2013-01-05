@@ -20,9 +20,38 @@ public class Reflector {
         List<Field> fields = new ArrayList<Field>();
 
         Constructor constructor = getConstructor(clazz);
+        List<biny.core.Field> fieldAnnotations = getFieldsAnnotations(constructor, clazz);
 
+        Field[] declaredFields = clazz.getDeclaredFields();
+
+        for (biny.core.Field fieldAnnotation : fieldAnnotations) {
+            Field field = findCorrespondingField(fieldAnnotation, declaredFields, clazz);
+            fields.add(field);
+        }
+
+        return fields;
+    }
+
+    private static Field findCorrespondingField(biny.core.Field fieldAnnotation, Field[] declaredFields, Class clazz) throws ReflectorException {
+        Field field = null;
+
+        for (Field declaredField : declaredFields) {
+
+            if (declaredField.getName().equals(fieldAnnotation.value())) {
+                field = declaredField;
+            }
+        }
+
+        if (field == null) {
+            throw ReflectorException.correspondingFieldNotFound(clazz, fieldAnnotation.value());
+        }
+
+        return field;
+    }
+
+    private static List<biny.core.Field> getFieldsAnnotations(Constructor constructor, Class clazz) throws ReflectorException {
         Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
-        List<Annotation> fieldAnnotations = new ArrayList<Annotation>();
+        List<biny.core.Field> fieldAnnotations = new ArrayList<biny.core.Field>();
 
         for (Annotation[] annotations : parameterAnnotations) {
 
@@ -31,13 +60,9 @@ public class Reflector {
             }
 
             Annotation fieldAnnotation = getFieldAnnotation(annotations);
-            fieldAnnotations.add(fieldAnnotation);
+            fieldAnnotations.add((biny.core.Field) fieldAnnotation);
         }
-
-        Class<?>[] parameterTypes = constructor.getParameterTypes();
-        Field[] declaredFields = clazz.getDeclaredFields();
-
-        return fields;
+        return fieldAnnotations;
     }
 
     private static Annotation getFieldAnnotation(Annotation[] annotations) {

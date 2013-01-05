@@ -18,4 +18,8 @@ public class ReflectorException extends Exception {
         return new ReflectorException(String.format("Found not annotated parameter in class [ %s ] constructor", clazz.getName()));
     }
 
+    public static ReflectorException correspondingFieldNotFound(Class clazz, String annotatedParameter) {
+        return new ReflectorException(String.format("There is no corresponding field for annotated parameter [ %s ] in class [ %s ] constructor", annotatedParameter, clazz.getName()));
+    }
+
 }

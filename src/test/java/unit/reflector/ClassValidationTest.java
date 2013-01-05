@@ -11,13 +11,13 @@ import org.junit.Test;
 public class ClassValidationTest {
 
     @Test
-    public void allConstructorParametersMustBeAnnotatedWithField() throws Exception {
+    public void allConstructorParametersMustBeAnnotatedWithField() {
 
 
     }
 
     @Test(expected = ReflectorException.class)
-    public void onlyOneConstructorMustBeDeclared() throws Exception {
+    public void onlyOneConstructorMustBeDeclared() throws ReflectorException {
         Reflector.parse(TwoConstructor.class);
     }
 
