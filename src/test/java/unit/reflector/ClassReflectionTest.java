@@ -19,8 +19,8 @@ public class ClassReflectionTest {
         List<Field> fields = Reflector.getFields(Value.class);
 
         Assert.assertEquals(2, fields.size());
-        Assert.assertEquals("longValue", fields.get(0).getName());
-        Assert.assertEquals("stringValue", fields.get(1).getName());
+        Assert.assertEquals(Value.LONG_VALUE_NAME, fields.get(0).getName());
+        Assert.assertEquals(Value.STRING_VALUE_NAME, fields.get(1).getName());
     }
 
 }

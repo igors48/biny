@@ -13,19 +13,22 @@ import java.util.List;
  */
 public class FieldsReaderTest {
 
+    private static final int LONG_VALUE = 48;
+    private static final String STRING_VALUE = "text";
+
     @Test
     public void allFieldsReaded() throws Exception {
-        Value value = new Value(48, "text");
+        Value value = new Value(LONG_VALUE, STRING_VALUE);
 
         List<FieldData> fieldDatas = FieldsReader.readFields(value);
 
         Assert.assertEquals(2, fieldDatas.size());
 
-        Assert.assertEquals("longValue", fieldDatas.get(0).name);
-        Assert.assertEquals(48, fieldDatas.get(0).value);
+        Assert.assertEquals(Value.LONG_VALUE_NAME, fieldDatas.get(0).name);
+        Assert.assertEquals(LONG_VALUE, fieldDatas.get(0).value);
 
-        Assert.assertEquals("stringValue", fieldDatas.get(0).name);
-        Assert.assertEquals("text", fieldDatas.get(0).value);
+        Assert.assertEquals(Value.STRING_VALUE_NAME, fieldDatas.get(0).name);
+        Assert.assertEquals(STRING_VALUE, fieldDatas.get(0).value);
     }
 
 }
