@@ -18,10 +18,9 @@ public class ClassValidationTest {
 
     @Test(expected = ReflectorException.class)
     public void onlyOneConstructorMustBeDeclared() throws ReflectorException {
-        Reflector.getFields(TwoConstructor.class);
+        Reflector.getClassMetaData(TwoConstructor.class);
     }
 
-    //only one constructor must be declared
     //all constructor parameters must have associated public final fields with same type
     //class must contains public final fields only
     //members must be long or String

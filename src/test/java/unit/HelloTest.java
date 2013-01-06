@@ -10,7 +10,7 @@ public class HelloTest {
 
     @Test
     public void smoke() throws Exception {
-        //Reflector.getFields(ExtendedValue.class);
+        //Reflector.getClassMetaData(ExtendedValue.class);
     }
 
 }

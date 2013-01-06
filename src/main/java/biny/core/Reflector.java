@@ -1,5 +1,6 @@
 package biny.core;
 
+import biny.core.annotation.Identifier;
 import biny.core.util.Assert;
 
 import java.lang.annotation.Annotation;
@@ -14,22 +15,37 @@ import java.util.List;
  */
 public class Reflector {
 
-    public static List<Field> getFields(Class clazz) throws ReflectorException {
+    public static ClassMetaData getClassMetaData(Class clazz) throws ReflectorException {
         Assert.notNull(clazz);
 
         List<Field> fields = new ArrayList<Field>();
 
         Constructor constructor = getConstructor(clazz);
-        List<biny.core.Field> fieldAnnotations = getFieldsAnnotations(constructor, clazz);
+        List<biny.core.annotation.Field> fieldAnnotations = getFieldsAnnotations(constructor, clazz);
 
         Field[] declaredFields = clazz.getDeclaredFields();
 
-        for (biny.core.Field fieldAnnotation : fieldAnnotations) {
+        for (biny.core.annotation.Field fieldAnnotation : fieldAnnotations) {
             Field field = findCorrespondingField(fieldAnnotation, declaredFields, clazz);
             fields.add(field);
         }
 
-        return fields;
+        int identifier = findClassIdentifier(clazz);
+
+        return new ClassMetaData(identifier, fields);
+    }
+
+    private static int findClassIdentifier(Class clazz) throws ReflectorException {
+        Annotation[] annotations = clazz.getAnnotations();
+
+        for (Annotation annotation : annotations) {
+
+            if (annotation.annotationType().equals(Identifier.class)) {
+                return ((Identifier) annotation).value();
+            }
+        }
+
+        throw ReflectorException.classIdentifierNotFound(clazz);
     }
 
     public static Constructor getConstructor(Class clazz) throws ReflectorException {
@@ -44,7 +60,7 @@ public class Reflector {
         return constructors[0];
     }
 
-    private static Field findCorrespondingField(biny.core.Field fieldAnnotation, Field[] declaredFields, Class clazz) throws ReflectorException {
+    private static Field findCorrespondingField(biny.core.annotation.Field fieldAnnotation, Field[] declaredFields, Class clazz) throws ReflectorException {
         Field field = null;
 
         for (Field declaredField : declaredFields) {
@@ -61,9 +77,9 @@ public class Reflector {
         return field;
     }
 
-    private static List<biny.core.Field> getFieldsAnnotations(Constructor constructor, Class clazz) throws ReflectorException {
+    private static List<biny.core.annotation.Field> getFieldsAnnotations(Constructor constructor, Class clazz) throws ReflectorException {
         Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
-        List<biny.core.Field> fieldAnnotations = new ArrayList<biny.core.Field>();
+        List<biny.core.annotation.Field> fieldAnnotations = new ArrayList<biny.core.annotation.Field>();
 
         for (Annotation[] annotations : parameterAnnotations) {
 
@@ -72,8 +88,9 @@ public class Reflector {
             }
 
             Annotation fieldAnnotation = getFieldAnnotation(annotations);
-            fieldAnnotations.add((biny.core.Field) fieldAnnotation);
+            fieldAnnotations.add((biny.core.annotation.Field) fieldAnnotation);
         }
+
         return fieldAnnotations;
     }
 
@@ -81,11 +98,12 @@ public class Reflector {
 
         for (Annotation annotation : annotations) {
 
-            if (annotation.annotationType().equals(biny.core.Field.class)) {
+            if (annotation.annotationType().equals(biny.core.annotation.Field.class)) {
                 return annotation;
             }
         }
 
+        //TODO consider throw an exception
         return null;
     }
 

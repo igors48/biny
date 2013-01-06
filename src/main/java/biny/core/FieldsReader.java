@@ -15,20 +15,20 @@ public class FieldsReader {
     public static List<FieldData> readFields(Object from) throws ReflectorException, IllegalAccessException {
         Assert.notNull(from);
 
-        List<FieldData> fieldDatas = new ArrayList<FieldData>();
+        List<Field> fields = Reflector.getClassMetaData(from.getClass()).fields;
 
-        List<Field> fields = Reflector.getFields(from.getClass());
+        List<FieldData> fieldDatas = new ArrayList<FieldData>();
 
         for (Field field : fields) {
             Class type = field.getType();
             FieldData data = null;
 
             if (type.getName().equalsIgnoreCase("long")) {
-                data = new FieldData<Long>(field.getName(), (Long) field.get(from));
-            }
-
-            if (type == String.class) {
-                data = new FieldData<String>(field.getName(), (String) field.get(from));
+                data = new FieldData<Long>(field.getName(), Type.LONG, (Long) field.get(from));
+            } else if (type == String.class) {
+                data = new FieldData<String>(field.getName(), Type.STRING, (String) field.get(from));
+            } else {
+                //value, aggregate
             }
 
             if (data != null) {

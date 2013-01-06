@@ -9,11 +9,15 @@ import biny.core.util.Assert;
 public class FieldData<T> {
 
     public final String name;
+    public final Type type;
     public final T value;
 
-    public FieldData(String name, T value) {
+    public FieldData(String name, Type type, T value) {
         Assert.isValidString(name);
         this.name = name;
+
+        Assert.notNull(type);
+        this.type = type;
 
         Assert.notNull(value);
         this.value = value;

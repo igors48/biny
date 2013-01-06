@@ -1,4 +1,4 @@
-package biny.core;
+package biny.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * Date : 04.01.13
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface Field {
-    String value();
+@Target(ElementType.TYPE)
+public @interface Identifier {
+    int value();
 }
