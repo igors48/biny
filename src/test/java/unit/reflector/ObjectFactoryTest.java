@@ -24,7 +24,7 @@ public class ObjectFactoryTest {
         fieldDatas.add(LONG_VALUE);
         fieldDatas.add(STRING_VALUE);
 
-        TestValue value = (TestValue) ObjectFactory.create(TestValue.class, fieldDatas);
+        SimpleObject value = (SimpleObject) ObjectFactory.create(SimpleObject.class, fieldDatas);
 
         Assert.assertEquals(LONG_VALUE, value.longValue);
         Assert.assertEquals(STRING_VALUE, value.stringValue);

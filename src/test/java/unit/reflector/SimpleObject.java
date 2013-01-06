@@ -7,8 +7,8 @@ import biny.core.annotation.Identifier;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 04.01.13
  */
-@Identifier(TestValue.IDENTIFIER)
-public class TestValue {
+@Identifier(SimpleObject.IDENTIFIER)
+public class SimpleObject {
 
     public static final String LONG_VALUE_NAME = "longValue";
     public static final String STRING_VALUE_NAME = "stringValue";
@@ -17,8 +17,8 @@ public class TestValue {
     public final long longValue;
     public final String stringValue;
 
-    public TestValue(@Field(LONG_VALUE_NAME) long longValue,
-                     @Field(STRING_VALUE_NAME) String stringValue) {
+    public SimpleObject(@Field(LONG_VALUE_NAME) long longValue,
+                        @Field(STRING_VALUE_NAME) String stringValue) {
         this.longValue = longValue;
         this.stringValue = stringValue;
     }
