@@ -15,7 +15,7 @@ public class FieldsReader {
     public static List<FieldData> readFields(Object from) throws ReflectorException, IllegalAccessException {
         Assert.notNull(from);
 
-        List<Field> fields = Reflector.getClassMetaData(from.getClass()).fields;
+        List<Field> fields = Reflector.createClassMetaData(from.getClass()).fields;
 
         List<FieldData> fieldDatas = new ArrayList<FieldData>();
 

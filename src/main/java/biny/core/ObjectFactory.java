@@ -16,7 +16,7 @@ public class ObjectFactory {
         Assert.notNull(clazz);
         Assert.notNull(parameters);
 
-        Constructor constructor = Reflector.getConstructor(clazz);
+        Constructor constructor = Reflector.findConstructor(clazz);
 
         return constructor.newInstance(parameters.toArray());
     }

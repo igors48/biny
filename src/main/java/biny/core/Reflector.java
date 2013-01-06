@@ -15,12 +15,12 @@ import java.util.List;
  */
 public class Reflector {
 
-    public static ClassMetaData getClassMetaData(Class clazz) throws ReflectorException {
+    public static ClassMetaData createClassMetaData(Class clazz) throws ReflectorException {
         Assert.notNull(clazz);
 
         List<Field> fields = new ArrayList<Field>();
 
-        Constructor constructor = getConstructor(clazz);
+        Constructor constructor = findConstructor(clazz);
         List<biny.core.annotation.Field> fieldAnnotations = getFieldsAnnotations(constructor, clazz);
 
         Field[] declaredFields = clazz.getDeclaredFields();
@@ -35,6 +35,18 @@ public class Reflector {
         return new ClassMetaData(identifier, fields);
     }
 
+    public static Constructor findConstructor(Class clazz) throws ReflectorException {
+        Assert.notNull(clazz);
+
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+
+        if (constructors.length != 1) {
+            throw ReflectorException.mustBeOnlyOneConstructor(clazz, constructors.length);
+        }
+
+        return constructors[0];
+    }
+
     private static int findClassIdentifier(Class clazz) throws ReflectorException {
         Annotation[] annotations = clazz.getAnnotations();
 
@@ -46,18 +58,6 @@ public class Reflector {
         }
 
         throw ReflectorException.classIdentifierNotFound(clazz);
-    }
-
-    public static Constructor getConstructor(Class clazz) throws ReflectorException {
-        Assert.notNull(clazz);
-
-        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-
-        if (constructors.length != 1) {
-            throw ReflectorException.mustBeOnlyOneConstructor(clazz, constructors.length);
-        }
-
-        return constructors[0];
     }
 
     private static Field findCorrespondingField(biny.core.annotation.Field fieldAnnotation, Field[] declaredFields, Class clazz) throws ReflectorException {

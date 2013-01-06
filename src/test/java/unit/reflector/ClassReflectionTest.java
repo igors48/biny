@@ -16,18 +16,18 @@ public class ClassReflectionTest {
 
     @Test
     public void allFieldReflectedInConstructorParameterOrder() throws ReflectorException {
-        List<Field> fields = Reflector.getClassMetaData(Value.class).fields;
+        List<Field> fields = Reflector.createClassMetaData(TestValue.class).fields;
 
         Assert.assertEquals(2, fields.size());
-        Assert.assertEquals(Value.LONG_VALUE_NAME, fields.get(0).getName());
-        Assert.assertEquals(Value.STRING_VALUE_NAME, fields.get(1).getName());
+        Assert.assertEquals(TestValue.LONG_VALUE_NAME, fields.get(0).getName());
+        Assert.assertEquals(TestValue.STRING_VALUE_NAME, fields.get(1).getName());
     }
 
     @Test
     public void identifierReadCorrectly() throws ReflectorException {
-        int identifier = Reflector.getClassMetaData(Value.class).identifier;
+        int identifier = Reflector.createClassMetaData(TestValue.class).identifier;
 
-        Assert.assertEquals(Value.IDENTIFIER, identifier);
+        Assert.assertEquals(TestValue.IDENTIFIER, identifier);
     }
 
 }
