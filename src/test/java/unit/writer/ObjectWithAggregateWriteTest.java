@@ -11,7 +11,7 @@ import unit.writer.adapter.StringPart;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 07.01.13
  */
-public class ObjectWithAggregateWritingTest extends ObjectWriterTestBase {
+public class ObjectWithAggregateWriteTest extends ObjectWriterTestBase {
 
     public static final int FIRST_LONG_VALUE = 48;
     public static final int SECOND_LONG_VALUE = 49;

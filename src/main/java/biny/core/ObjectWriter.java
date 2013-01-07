@@ -3,6 +3,7 @@ package biny.core;
 import biny.core.util.Assert;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -34,32 +35,47 @@ public class ObjectWriter {
         this.writer.writeAggregateIdentifier(classMetaData.identifier);
 
         for (Field field : classMetaData.fields) {
-            Type type = getFieldType(field.getType());
             Object object = field.get(aggregate);
-
-            switch (type) {
-                case LONG:
-                    this.writer.writeLong((Long) object);
-                    break;
-                case STRING:
-                    this.writer.writeString((String) object);
-                    break;
-                case AGGREGATE:
-                    writeAggregate(object);
-                    break;
-                case LIST:
-                    break;
-            }
+            writeObject(object);
         }
     }
 
-    public static Type getFieldType(Class clazz) {
+    private void writeList(List list) throws IllegalAccessException, ReflectorException {
+        this.writer.writeListStart(list.size());
+
+        for (Object item : list) {
+            writeObject(item);
+        }
+    }
+
+    private void writeObject(Object object) throws ReflectorException, IllegalAccessException {
+        Type type = getObjectType(object.getClass());
+
+        switch (type) {
+            case LONG:
+                this.writer.writeLong((Long) object);
+                break;
+            case STRING:
+                this.writer.writeString((String) object);
+                break;
+            case AGGREGATE:
+                writeAggregate(object);
+                break;
+            case LIST:
+                writeList((List) object);
+                break;
+        }
+    }
+
+    public static Type getObjectType(Class clazz) {
         Assert.notNull(clazz);
 
-        if (clazz.getName().equalsIgnoreCase("long")) {
+        if (Long.class.isAssignableFrom(clazz)) {
             return Type.LONG;
-        } else if (clazz == String.class) {
+        } else if (String.class.isAssignableFrom(clazz)) {
             return Type.STRING;
+        } else if (List.class.isAssignableFrom(clazz)) {
+            return Type.LIST;
         } else {
             return Type.AGGREGATE;
         }

@@ -12,4 +12,6 @@ public interface ObjectWriterAdapter {
 
     void writeString(String value);
 
+    void writeListStart(int listSize);
+
 }

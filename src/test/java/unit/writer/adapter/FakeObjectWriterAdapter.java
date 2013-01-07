@@ -37,4 +37,11 @@ public class FakeObjectWriterAdapter implements ObjectWriterAdapter {
         this.parts.add(new StringPart(value));
     }
 
+    @Override
+    public void writeListStart(int listSize) {
+        Assert.greaterOrEqual(listSize, 0, "");
+
+        this.parts.add(new ListStartPart(listSize));
+    }
+
 }

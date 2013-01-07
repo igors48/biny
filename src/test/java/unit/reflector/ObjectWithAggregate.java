@@ -2,6 +2,7 @@ package unit.reflector;
 
 import biny.core.annotation.Field;
 import biny.core.annotation.Identifier;
+import biny.core.util.Assert;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -16,6 +17,8 @@ public class ObjectWithAggregate {
     public ObjectWithAggregate(@Field("longValue") long longValue,
                                @Field("simpleObject") SimpleObject simpleObject) {
         this.longValue = longValue;
+
+        Assert.notNull(simpleObject);
         this.simpleObject = simpleObject;
     }
 
