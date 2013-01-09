@@ -13,11 +13,15 @@ import java.util.List;
 public class ClassMetaData {
 
     public final int identifier;
+    public final Class clazz;
     public final List<Field> fields;
 
-    public ClassMetaData(int identifier, List<Field> fields) {
+    public ClassMetaData(int identifier, Class clazz, List<Field> fields) {
         Assert.greaterOrEqual(identifier, 0, "");
         this.identifier = identifier;
+
+        Assert.notNull(clazz);
+        this.clazz = clazz;
 
         Assert.notNull(fields);
         this.fields = Collections.unmodifiableList(fields);

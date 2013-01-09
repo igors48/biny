@@ -32,7 +32,7 @@ public class Reflector {
 
         int identifier = findClassIdentifier(clazz);
 
-        return new ClassMetaData(identifier, fields);
+        return new ClassMetaData(identifier, clazz, fields);
     }
 
     public static Constructor findConstructor(Class clazz) throws ReflectorException {
