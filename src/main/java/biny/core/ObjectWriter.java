@@ -70,7 +70,7 @@ public class ObjectWriter {
     public static Type getObjectType(Class clazz) {
         Assert.notNull(clazz);
 
-        if (Long.class.isAssignableFrom(clazz)) {
+        if (Long.class.isAssignableFrom(clazz) || clazz.getName().equals("long")) {
             return Type.LONG;
         } else if (String.class.isAssignableFrom(clazz)) {
             return Type.STRING;

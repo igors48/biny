@@ -10,12 +10,13 @@ import biny.core.annotation.Identifier;
 @Identifier(SimpleObject.IDENTIFIER)
 public class SimpleObject {
 
-    public static final String LONG_VALUE_NAME = "longValue";
-    public static final String STRING_VALUE_NAME = "stringValue";
-    public static final int IDENTIFIER = 42;
     public static final int LONG_VALUE = 48;
     public static final String STRING_VALUE = "text";
     public static final SimpleObject SIMPLE_OBJECT = new SimpleObject(LONG_VALUE, STRING_VALUE);
+
+    public static final String LONG_VALUE_NAME = "longValue";
+    public static final String STRING_VALUE_NAME = "stringValue";
+    public static final int IDENTIFIER = 42;
 
     public final long longValue;
     public final String stringValue;
