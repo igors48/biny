@@ -49,7 +49,7 @@ public class ObjectReader {
 
         for (Field field : classMetaData.fields) {
             Class clazz = field.getType();
-            Type type = ObjectWriter.getObjectType(clazz);
+            Type type = Reflector.getFieldType(clazz);
 
             Object object;
             if (type == Type.LIST) {

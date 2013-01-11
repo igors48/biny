@@ -49,7 +49,7 @@ public class ObjectWriter {
     }
 
     private void writeObject(Object object) throws ReflectorException, IllegalAccessException {
-        Type type = getObjectType(object.getClass());
+        Type type = Reflector.getFieldType(object.getClass());
 
         switch (type) {
             case LONG:
@@ -64,20 +64,6 @@ public class ObjectWriter {
             case LIST:
                 writeList((List) object);
                 break;
-        }
-    }
-
-    public static Type getObjectType(Class clazz) {
-        Assert.notNull(clazz);
-
-        if (Long.class.isAssignableFrom(clazz) || clazz.getName().equals("long")) {
-            return Type.LONG;
-        } else if (String.class.isAssignableFrom(clazz)) {
-            return Type.STRING;
-        } else if (List.class.isAssignableFrom(clazz)) {
-            return Type.LIST;
-        } else {
-            return Type.AGGREGATE;
         }
     }
 

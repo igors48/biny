@@ -1,8 +1,8 @@
 package biny.core;
 
+import biny.core.meta.AbstractMetaData;
 import biny.core.util.Assert;
 
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,9 +14,9 @@ public class ClassMetaData {
 
     public final int identifier;
     public final Class clazz;
-    public final List<Field> fields;
+    public final List<AbstractMetaData> fields;
 
-    public ClassMetaData(int identifier, Class clazz, List<Field> fields) {
+    public ClassMetaData(int identifier, Class clazz, List<AbstractMetaData> fields) {
         Assert.greaterOrEqual(identifier, 0, "");
         this.identifier = identifier;
 

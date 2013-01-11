@@ -1,6 +1,7 @@
 package biny.core;
 
 import biny.core.annotation.Identifier;
+import biny.core.meta.AbstractMetaData;
 import biny.core.util.Assert;
 
 import java.lang.annotation.Annotation;
@@ -15,10 +16,24 @@ import java.util.List;
  */
 public class Reflector {
 
+    public static Type getFieldType(Class clazz) {
+        Assert.notNull(clazz);
+
+        if (Long.class.isAssignableFrom(clazz) || clazz.getName().equals("long")) {
+            return Type.LONG;
+        } else if (String.class.isAssignableFrom(clazz)) {
+            return Type.STRING;
+        } else if (List.class.isAssignableFrom(clazz)) {
+            return Type.LIST;
+        } else {
+            return Type.AGGREGATE;
+        }
+    }
+
     public static ClassMetaData createClassMetaData(Class clazz) throws ReflectorException {
         Assert.notNull(clazz);
 
-        List<Field> fields = new ArrayList<Field>();
+        List<AbstractMetaData> fields = new ArrayList<AbstractMetaData>();
 
         Constructor constructor = findConstructor(clazz);
         List<biny.core.annotation.Field> fieldAnnotations = getFieldsAnnotations(constructor, clazz);
@@ -27,6 +42,7 @@ public class Reflector {
 
         for (biny.core.annotation.Field fieldAnnotation : fieldAnnotations) {
             Field field = findCorrespondingField(fieldAnnotation, declaredFields, clazz);
+            Type type = getFieldType(field.getType());
             fields.add(field);
         }
 
