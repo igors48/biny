@@ -1,10 +1,12 @@
 package biny.core;
 
+import biny.core.context.Context;
+import biny.core.context.ContextException;
+import biny.core.meta.AbstractField;
+import biny.core.meta.ListField;
 import biny.core.util.Assert;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,83 +23,102 @@ public class ObjectReader {
         this.context = context;
     }
 
-    public Object read(ObjectReaderAdapter adapter) throws ObjectReaderException {
+    public Object read(ReaderAdapter adapter) throws ObjectReaderException {
         Assert.notNull(adapter);
 
+        return readAggregate(adapter);
+    }
+
+    private Object readAggregate(ReaderAdapter adapter) throws ObjectReaderException {
+        int identifier = adapter.readAggregateIdentifier();
+
         try {
-            return readAggregate(adapter);
-        } catch (ReflectorException e) {
-            throw new ObjectReaderException(e);
-        } catch (IllegalAccessException e) {
-            throw new ObjectReaderException(e);
-        } catch (InvocationTargetException e) {
-            throw new ObjectReaderException(e);
-        } catch (InstantiationException e) {
-            throw new ObjectReaderException(e);
+            ClassDescriptor descriptor = this.context.getClassDescriptor(identifier);
+
+            List<Object> parameters = readConstructorParameters(adapter, descriptor);
+
+            return callAggregateConstructor(descriptor, parameters);
+        } catch (ContextException e) {
+            throw ObjectReaderException.canNotInstantiateObjectWithId(identifier);
         }
     }
 
-    private Object readAggregate(ObjectReaderAdapter adapter) throws ObjectReaderException, ReflectorException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        int identifier = adapter.readAggregateIdentifier();
-        ClassMetaData classMetaData = this.context.getClassMetaData(identifier);
+    private Object callAggregateConstructor(ClassDescriptor descriptor, List<Object> parameters) throws ObjectReaderException {
 
-        if (classMetaData == null) {
-            throw ObjectReaderException.unknownIdentifier(identifier);
+        try {
+            Class aggregateClass = Class.forName(descriptor.name);
+
+            return ObjectFactory.create(aggregateClass, parameters);
+        } catch (ClassNotFoundException e) {
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+        } catch (InvocationTargetException e) {
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+        } catch (InstantiationException e) {
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+        } catch (ReflectorException e) {
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+        } catch (IllegalAccessException e) {
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
         }
+    }
 
+    private List<Object> readConstructorParameters(ReaderAdapter adapter, ClassDescriptor descriptor) throws ObjectReaderException, ContextException {
         List<Object> parameters = new ArrayList<Object>();
 
-        for (Field field : classMetaData.fields) {
-            Class clazz = field.getType();
-            Type type = Reflector.getFieldType(clazz);
+        for (AbstractField current : descriptor.fields) {
+            Object parameter = null;
 
-            Object object;
-            if (type == Type.LIST) {
-                //TODO this should be stored in class metadata when context is creating
-                java.lang.reflect.Type generic = field.getGenericType();
-                ParameterizedType parameterizedType = (ParameterizedType) generic;
-                System.out.println("raw type: " + parameterizedType.getRawType());
-                System.out.println("owner type: " + parameterizedType.getOwnerType());
-                System.out.println("actual type args:");
-
-                for (java.lang.reflect.Type t : parameterizedType.getActualTypeArguments()) {
-                    System.out.println("    " + t);
-                }
-
-                object = null;
-            } else {
-                object = readObject(type, adapter);
+            switch (current.type) {
+                case LONG:
+                    parameter = adapter.readLong();
+                    break;
+                case STRING:
+                    parameter = adapter.readString();
+                    break;
+                case AGGREGATE:
+                    parameter = readAggregate(adapter);
+                    break;
+                case LIST:
+                    parameter = readList(adapter, (ListField) current);
+                    break;
             }
 
-            parameters.add(object);
+            parameters.add(parameter);
         }
 
-        return ObjectFactory.create(classMetaData.clazz, parameters);
+        return parameters;
     }
 
-    private Object readObject(Type type, ObjectReaderAdapter adapter) throws ObjectReaderException, InvocationTargetException, InstantiationException, ReflectorException, IllegalAccessException {
+    @SuppressWarnings(value = "unchecked")
+    private Object readList(ReaderAdapter adapter, ListField listField) throws ObjectReaderException, ContextException {
+        int listLength = adapter.readListLength();
 
-        switch (type) {
-            case LONG:
-                return adapter.readLong();
-            case STRING:
-                return adapter.readString();
-            case AGGREGATE:
-                return readAggregate(adapter);
-        }
+        List list = new ArrayList(listLength);
 
-        throw ObjectReaderException.unexpectedType(type);
-    }
+        for (int index = 0; index < listLength; ++index) {
+            Type elementType = listField.element.type;
 
-    private List readList(Class element, ObjectReaderAdapter adapter) throws InvocationTargetException, InstantiationException, ObjectReaderException, ReflectorException, IllegalAccessException {
-        long count = adapter.readListStart();
+            Object element = null;
 
-        List list = new ArrayList();
+            switch (elementType) {
+                case LONG:
+                    element = adapter.readLong();
+                    break;
+                case STRING:
+                    element = adapter.readString();
+                    break;
+                case AGGREGATE:
+                    element = readAggregate(adapter);
+                    break;
+                case LIST:
+                    break;
+            }
 
-        for (int index = 0; index < count; ++index) {
-            Object item = null;//readObject(element, adapter);
+            if (element == null) {
+                throw ObjectReaderException.canNotInstantiateListElementOfType(elementType.toString());
+            }
 
-            list.add(item);
+            list.add(element);
         }
 
         return list;

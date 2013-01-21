@@ -22,7 +22,7 @@ public class ObjectWithAggregateWriteTest extends ObjectWriterTestBase {
         SimpleObject aggregate = new SimpleObject(SECOND_LONG_VALUE, TEXT_VALUE);
         ObjectWithAggregate objectWithAggregate = new ObjectWithAggregate(FIRST_LONG_VALUE, aggregate);
 
-        this.writer.write(objectWithAggregate);
+        this.writer.write(objectWithAggregate, this.objectWriterAdapter);
 
         LongPart firstLongValue = (LongPart) this.objectWriterAdapter.parts.get(1);
         LongPart secondLongValue = (LongPart) this.objectWriterAdapter.parts.get(3);

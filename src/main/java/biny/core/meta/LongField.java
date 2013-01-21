@@ -1,15 +1,17 @@
 package biny.core.meta;
 
+import biny.core.Type;
+
 import java.lang.reflect.Field;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 10.01.13
  */
-public class StringMetaData extends AbstractMetaData {
+public class LongField extends AbstractField {
 
-    public StringMetaData(Field field) {
-        super(field);
+    public LongField(Field field) {
+        super(Type.LONG, field);
     }
 
 }

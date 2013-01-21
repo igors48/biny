@@ -16,7 +16,7 @@ public class SimpleObjectWriteTest extends ObjectWriterTestBase {
 
     @Test
     public void objectIdentifierStoredFirst() throws ObjectWriterException {
-        this.writer.write(SimpleObject.SIMPLE_OBJECT);
+        this.writer.write(SimpleObject.SIMPLE_OBJECT, this.objectWriterAdapter);
 
         IdentifierPart storedIdentifier = (IdentifierPart) this.objectWriterAdapter.parts.get(0);
 
@@ -25,7 +25,7 @@ public class SimpleObjectWriteTest extends ObjectWriterTestBase {
 
     @Test
     public void objectFieldsStoredInCorrectOrder() throws Exception {
-        this.writer.write(SimpleObject.SIMPLE_OBJECT);
+        this.writer.write(SimpleObject.SIMPLE_OBJECT, this.objectWriterAdapter);
 
         LongPart longPart = (LongPart) this.objectWriterAdapter.parts.get(1);
         StringPart stringPart = (StringPart) this.objectWriterAdapter.parts.get(2);

@@ -1,6 +1,6 @@
 package unit.writer.adapter;
 
-import biny.core.ObjectReaderAdapter;
+import biny.core.ReaderAdapter;
 import biny.core.util.Assert;
 
 import java.util.Iterator;
@@ -10,11 +10,11 @@ import java.util.List;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 07.01.13
  */
-public class FakeObjectReaderAdapter implements ObjectReaderAdapter {
+public class FakeReaderAdapter implements ReaderAdapter {
 
     private final Iterator<Part> parts;
 
-    public FakeObjectReaderAdapter(List<Part> parts) {
+    public FakeReaderAdapter(List<Part> parts) {
         Assert.notNull(parts);
         this.parts = parts.iterator();
     }
@@ -35,7 +35,7 @@ public class FakeObjectReaderAdapter implements ObjectReaderAdapter {
     }
 
     @Override
-    public int readListStart() {
+    public int readListLength() {
         return ((ListStartPart) next()).listSize;
     }
 

@@ -20,6 +20,8 @@
     <property name="dir.source" value="${dir.base}/src/"/>
     <property name="dir.source.main.java" value="${dir.source}/main/java"/>
     <property name="dir.source.test.java" value="${dir.source}/test/java"/>
+    <property name="dir.source.test.filter.java" value="**/*Test.java"/>
+
 
     <property name="dir.dependencies" value="${dir.base}/lib/"/>
     <property name="dir.dependencies.compile" value="${dir.dependencies}/compile/"/>
@@ -117,7 +119,7 @@
 
 
     <fileset id="source.test.filtered.java" dir="${dir.source.test.java}">
-        <include name="**/*Test.java"/>
+        <include name="${dir.source.test.filter.java}"/>
     </fileset>
 
 

@@ -6,20 +6,24 @@ package biny.core;
  */
 public class ObjectReaderException extends Exception {
 
-    public ObjectReaderException(Throwable cause) {
+    private ObjectReaderException(Throwable cause) {
         super(cause);
     }
 
-    public ObjectReaderException(String message) {
+    private ObjectReaderException(String message) {
         super(message);
     }
 
-    public static ObjectReaderException unknownIdentifier(int identifier) {
-        return new ObjectReaderException(String.format("Unknown object identifier [ %d ]", identifier));
+    public static ObjectReaderException canNotInstantiateObjectOfClass(String className) {
+        return new ObjectReaderException(String.format("Can not instantiate object of class [ %s ]", className));
     }
 
-    public static ObjectReaderException unexpectedType(Type type) {
-        return new ObjectReaderException(String.format("Unexpected object type [ %s ]", type));
+    public static ObjectReaderException canNotInstantiateObjectWithId(int identifier) {
+        return new ObjectReaderException(String.format("Can not instantiate object with id [ %d ]", identifier));
+    }
+
+    public static ObjectReaderException canNotInstantiateListElementOfType(String type) {
+        return new ObjectReaderException(String.format("Can not instantiate object of type [ %s ]", type));
     }
 
 }

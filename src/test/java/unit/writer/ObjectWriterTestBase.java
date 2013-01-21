@@ -1,8 +1,13 @@
 package unit.writer;
 
 import biny.core.ObjectWriter;
+import biny.core.context.Context;
+import biny.core.context.ContextException;
 import org.junit.Before;
-import unit.writer.adapter.FakeObjectWriterAdapter;
+import unit.reflector.ObjectWithAggregate;
+import unit.reflector.ObjectWithList;
+import unit.reflector.SimpleObject;
+import unit.writer.adapter.FakeWriterAdapter;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -10,13 +15,15 @@ import unit.writer.adapter.FakeObjectWriterAdapter;
  */
 public class ObjectWriterTestBase {
 
+    protected Context context;
     protected ObjectWriter writer;
-    protected FakeObjectWriterAdapter objectWriterAdapter;
+    protected FakeWriterAdapter objectWriterAdapter;
 
     @Before
-    public void before() {
-        this.objectWriterAdapter = new FakeObjectWriterAdapter();
-        this.writer = new ObjectWriter(objectWriterAdapter);
+    public void before() throws ContextException {
+        this.context = new Context(SimpleObject.class, ObjectWithAggregate.class, ObjectWithList.class);
+        this.objectWriterAdapter = new FakeWriterAdapter();
+        this.writer = new ObjectWriter(this.context);
     }
 
 }

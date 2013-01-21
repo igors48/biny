@@ -1,8 +1,10 @@
 package biny.core;
 
+import biny.core.context.Context;
+import biny.core.context.ContextException;
+import biny.core.meta.AbstractField;
 import biny.core.util.Assert;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -11,58 +13,60 @@ import java.util.List;
  */
 public class ObjectWriter {
 
-    private final ObjectWriterAdapter writer;
+    private final Context context;
 
-    public ObjectWriter(ObjectWriterAdapter writer) {
-        Assert.notNull(writer);
-        this.writer = writer;
+    public ObjectWriter(Context context) {
+        Assert.notNull(context);
+        this.context = context;
     }
 
-    public void write(Object object) throws ObjectWriterException {
+    public void write(Object object, WriterAdapter writer) throws ObjectWriterException {
         Assert.notNull(object);
+        Assert.notNull(writer);
 
         try {
-            writeAggregate(object);
-        } catch (ReflectorException e) {
-            throw new ObjectWriterException(e);
+            writeAggregate(object, writer);
         } catch (IllegalAccessException e) {
             throw new ObjectWriterException(e);
+        } catch (ContextException e) {
+            throw new ObjectWriterException(e);
         }
     }
 
-    private void writeAggregate(Object aggregate) throws ReflectorException, IllegalAccessException {
-        ClassMetaData classMetaData = Reflector.createClassMetaData(aggregate.getClass());
-        this.writer.writeAggregateIdentifier(classMetaData.identifier);
+    private void writeAggregate(Object aggregate, WriterAdapter writer) throws IllegalAccessException, ContextException {
+        ClassDescriptor descriptor = this.context.getClassDescriptor(aggregate.getClass());
+        writer.writeAggregateIdentifier(descriptor.identifier);
 
-        for (Field field : classMetaData.fields) {
-            Object object = field.get(aggregate);
-            writeObject(object);
+        for (AbstractField field : descriptor.fields) {
+            Object object = field.field.get(aggregate);
+            writeObject(object, writer);
         }
+
     }
 
-    private void writeList(List list) throws IllegalAccessException, ReflectorException {
-        this.writer.writeListStart(list.size());
+    private void writeList(List list, WriterAdapter writer) throws IllegalAccessException, ContextException {
+        writer.writeListSize(list.size());
 
         for (Object item : list) {
-            writeObject(item);
+            writeObject(item, writer);
         }
     }
 
-    private void writeObject(Object object) throws ReflectorException, IllegalAccessException {
+    private void writeObject(Object object, WriterAdapter writer) throws IllegalAccessException, ContextException {
         Type type = Reflector.getFieldType(object.getClass());
 
         switch (type) {
             case LONG:
-                this.writer.writeLong((Long) object);
+                writer.writeLong((Long) object);
                 break;
             case STRING:
-                this.writer.writeString((String) object);
+                writer.writeString((String) object);
                 break;
             case AGGREGATE:
-                writeAggregate(object);
+                writeAggregate(object, writer);
                 break;
             case LIST:
-                writeList((List) object);
+                writeList((List) object, writer);
                 break;
         }
     }

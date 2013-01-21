@@ -1,20 +1,28 @@
 package biny.core;
 
 import biny.core.annotation.Identifier;
-import biny.core.meta.AbstractMetaData;
+import biny.core.meta.*;
 import biny.core.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 04.01.13
  */
 public class Reflector {
+
+    public static String getClassName(Class clazz) {
+        Assert.notNull(clazz);
+
+        return clazz.getCanonicalName();
+    }
 
     public static Type getFieldType(Class clazz) {
         Assert.notNull(clazz);
@@ -30,10 +38,11 @@ public class Reflector {
         }
     }
 
-    public static ClassMetaData createClassMetaData(Class clazz) throws ReflectorException {
+    public static ClassDescriptor createClassDescriptor(Class clazz, Set<String> availableClassNames) throws ReflectorException {
         Assert.notNull(clazz);
+        Assert.notNull(availableClassNames);
 
-        List<AbstractMetaData> fields = new ArrayList<AbstractMetaData>();
+        List<AbstractField> fields = new ArrayList<AbstractField>();
 
         Constructor constructor = findConstructor(clazz);
         List<biny.core.annotation.Field> fieldAnnotations = getFieldsAnnotations(constructor, clazz);
@@ -42,19 +51,98 @@ public class Reflector {
 
         for (biny.core.annotation.Field fieldAnnotation : fieldAnnotations) {
             Field field = findCorrespondingField(fieldAnnotation, declaredFields, clazz);
-            Type type = getFieldType(field.getType());
-            fields.add(field);
+            Class fieldClass = field.getType();
+
+            AbstractField metaData = getFieldMetaData(clazz, field, fieldClass, availableClassNames);
+
+            if (metaData != null) {
+                fields.add(metaData);
+            }
         }
 
         int identifier = findClassIdentifier(clazz);
 
-        return new ClassMetaData(identifier, clazz, fields);
+        return new ClassDescriptor(identifier, getClassName(clazz), fields);
+    }
+
+    private static AbstractField getFieldMetaData(Class clazz, Field field, Class fieldClass, Set<String> availableClassNames) throws ReflectorException {
+        Type type = getFieldType(fieldClass);
+
+        AbstractField metaData = null;
+
+        switch (type) {
+            case LONG:
+                metaData = new LongField(field);
+                break;
+            case STRING:
+                metaData = new StringField(field);
+                break;
+            case AGGREGATE:
+                metaData = createAggregateField(field, fieldClass, availableClassNames);
+                break;
+            case LIST:
+                metaData = createListField(clazz, field, availableClassNames);
+                break;
+        }
+
+        return metaData;
+    }
+
+    private static AbstractField createAggregateField(Field field, Class fieldClass, Set<String> availableClassNames) throws ReflectorException {
+        String className = getClassName(fieldClass);
+        assertClassAvailable(className, availableClassNames);
+
+        return new AggregateField(className, field);
+    }
+
+    private static AbstractField createListField(Class clazz, Field field, Set<String> availableClassNames) throws ReflectorException {
+        Class elementClass = getListElementClass(clazz, field);
+        Type elementType = getFieldType(elementClass);
+
+        AbstractListElement listElementMetaData = null;
+
+        switch (elementType) {
+            case LONG:
+                listElementMetaData = new LongListElement();
+                break;
+            case STRING:
+                listElementMetaData = new StringListElement();
+                break;
+            case AGGREGATE:
+                String elementClassName = getClassName(elementClass);
+                assertClassAvailable(elementClassName, availableClassNames);
+                listElementMetaData = new AggregateListElement(elementClassName);
+                break;
+            case LIST:
+                throw ReflectorException.innerListsAreNotSupported();
+        }
+
+        return new ListField(listElementMetaData, field);
+    }
+
+    private static Class getListElementClass(Class clazz, Field field) throws ReflectorException {
+        java.lang.reflect.Type generic = field.getGenericType();
+        ParameterizedType parameterizedType = (ParameterizedType) generic;
+        java.lang.reflect.Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+
+        if (actualTypeArguments.length != 1) {
+            throw ReflectorException.wrongCountOfActualTypeArguments(clazz, actualTypeArguments.length);
+        }
+
+        return (Class) actualTypeArguments[0];
+    }
+
+    private static void assertClassAvailable(String className, Set<String> availableClassNames) throws ReflectorException {
+
+        if (!availableClassNames.contains(className)) {
+            throw ReflectorException.classIsNotAvailable(className);
+        }
     }
 
     public static Constructor findConstructor(Class clazz) throws ReflectorException {
         Assert.notNull(clazz);
 
-        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        Constructor[] constructors = clazz.getDeclaredConstructors();
 
         if (constructors.length != 1) {
             throw ReflectorException.mustBeOnlyOneConstructor(clazz, constructors.length);
@@ -104,6 +192,11 @@ public class Reflector {
             }
 
             Annotation fieldAnnotation = getFieldAnnotation(annotations);
+
+            if (fieldAnnotation == null) {
+                throw ReflectorException.notFieldAnnotatedParameterFound(clazz);
+            }
+
             fieldAnnotations.add((biny.core.annotation.Field) fieldAnnotation);
         }
 
@@ -119,7 +212,6 @@ public class Reflector {
             }
         }
 
-        //TODO consider throw an exception
         return null;
     }
 

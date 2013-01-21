@@ -1,6 +1,6 @@
 package unit.writer.adapter;
 
-import biny.core.ObjectWriterAdapter;
+import biny.core.WriterAdapter;
 import biny.core.util.Assert;
 
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.List;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 06.01.13
  */
-public class FakeObjectWriterAdapter implements ObjectWriterAdapter {
+public class FakeWriterAdapter implements WriterAdapter {
 
     public final List<Part> parts;
 
-    public FakeObjectWriterAdapter() {
+    public FakeWriterAdapter() {
         this.parts = new ArrayList<Part>();
     }
 
@@ -38,7 +38,7 @@ public class FakeObjectWriterAdapter implements ObjectWriterAdapter {
     }
 
     @Override
-    public void writeListStart(int listSize) {
+    public void writeListSize(int listSize) {
         Assert.greaterOrEqual(listSize, 0, "");
 
         this.parts.add(new ListStartPart(listSize));

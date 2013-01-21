@@ -4,7 +4,7 @@ package biny.core;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 06.01.13
  */
-public interface ObjectReaderAdapter {
+public interface ReaderAdapter {
 
     int readAggregateIdentifier();
 
@@ -12,6 +12,6 @@ public interface ObjectReaderAdapter {
 
     String readString();
 
-    int readListStart();
+    int readListLength();
 
 }

@@ -25,7 +25,7 @@ public class ObjectWithListWriteTest extends ObjectWriterTestBase {
 
         ObjectWithList objectWithList = new ObjectWithList(list);
 
-        this.writer.write(objectWithList);
+        this.writer.write(objectWithList, this.objectWriterAdapter);
 
         ListStartPart listStartPart = (ListStartPart) this.objectWriterAdapter.parts.get(1);
 
@@ -38,7 +38,7 @@ public class ObjectWithListWriteTest extends ObjectWriterTestBase {
 
         ObjectWithList objectWithList = new ObjectWithList(list);
 
-        this.writer.write(objectWithList);
+        this.writer.write(objectWithList, this.objectWriterAdapter);
 
         LongPart first = (LongPart) this.objectWriterAdapter.parts.get(2);
         Assert.assertEquals(FIRST_LONG, first.value);
