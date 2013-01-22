@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static biny.core.ReflectorException.*;
+
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 04.01.13
@@ -114,7 +116,7 @@ public class Reflector {
                 listElementMetaData = new AggregateListElement(elementClassName);
                 break;
             case LIST:
-                throw ReflectorException.innerListsAreNotSupported();
+                throw innerListsAreNotSupported();
         }
 
         return new ListField(listElementMetaData, field);
@@ -126,7 +128,7 @@ public class Reflector {
         java.lang.reflect.Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
         if (actualTypeArguments.length != 1) {
-            throw ReflectorException.wrongCountOfActualTypeArguments(clazz, actualTypeArguments.length);
+            throw wrongCountOfActualTypeArguments(clazz, actualTypeArguments.length);
         }
 
         return (Class) actualTypeArguments[0];
@@ -135,7 +137,7 @@ public class Reflector {
     private static void assertClassAvailable(String className, Set<String> availableClassNames) throws ReflectorException {
 
         if (!availableClassNames.contains(className)) {
-            throw ReflectorException.classIsNotAvailable(className);
+            throw classIsNotAvailable(className);
         }
     }
 
@@ -145,7 +147,7 @@ public class Reflector {
         Constructor[] constructors = clazz.getDeclaredConstructors();
 
         if (constructors.length != 1) {
-            throw ReflectorException.mustBeOnlyOneConstructor(clazz, constructors.length);
+            throw mustBeOnlyOneConstructor(clazz, constructors.length);
         }
 
         return constructors[0];
@@ -161,7 +163,7 @@ public class Reflector {
             }
         }
 
-        throw ReflectorException.classIdentifierNotFound(clazz);
+        throw classIdentifierNotFound(clazz);
     }
 
     private static Field findCorrespondingField(biny.core.annotation.Field fieldAnnotation, Field[] declaredFields, Class clazz) throws ReflectorException {
@@ -175,7 +177,7 @@ public class Reflector {
         }
 
         if (field == null) {
-            throw ReflectorException.correspondingFieldNotFound(clazz, fieldAnnotation.value());
+            throw correspondingFieldNotFound(clazz, fieldAnnotation.value());
         }
 
         return field;
@@ -188,13 +190,13 @@ public class Reflector {
         for (Annotation[] annotations : parameterAnnotations) {
 
             if (annotations.length == 0) {
-                throw ReflectorException.notAnnotatedConstructorParameterFound(clazz);
+                throw notAnnotatedConstructorParameterFound(clazz);
             }
 
             Annotation fieldAnnotation = getFieldAnnotation(annotations);
 
             if (fieldAnnotation == null) {
-                throw ReflectorException.notFieldAnnotatedParameterFound(clazz);
+                throw notFieldAnnotatedParameterFound(clazz);
             }
 
             fieldAnnotations.add((biny.core.annotation.Field) fieldAnnotation);

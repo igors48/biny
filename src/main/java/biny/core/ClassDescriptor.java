@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class ClassDescriptor {
 
+    // TODO store constructor
+
     public final int identifier;
     public final String name;
     public final List<AbstractField> fields;

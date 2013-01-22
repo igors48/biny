@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static biny.core.Reflector.getClassName;
+import static biny.core.context.ContextException.canNotFindDescriptorForClass;
+import static biny.core.context.ContextException.canNotFindDescriptorForClassWithId;
 import static biny.core.context.ContextTools.createAvailableClassNames;
 import static biny.core.context.ContextTools.createClassDescriptors;
 
@@ -36,7 +38,7 @@ public class Context {
             }
         }
 
-        throw ContextException.canNotFindDescriptorForClassWithId(identifier);
+        throw canNotFindDescriptorForClassWithId(identifier);
     }
 
     public ClassDescriptor getClassDescriptor(Class clazz) throws ContextException {
@@ -46,7 +48,7 @@ public class Context {
         ClassDescriptor descriptor = this.descriptors.get(className);
 
         if (descriptor == null) {
-            throw ContextException.canNotFindDescriptorForClass(clazz);
+            throw canNotFindDescriptorForClass(clazz);
         }
 
         return descriptor;

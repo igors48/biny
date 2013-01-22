@@ -1,9 +1,10 @@
-package unit.reflector;
+package unit.reflector.creation;
 
 import biny.core.ObjectFactory;
 import biny.core.ReflectorException;
 import org.junit.Assert;
 import org.junit.Test;
+import unit.reflector.SimpleObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static biny.core.Reflector.getClassName;
+import static biny.core.context.ContextException.canNotCreateClassDescriptor;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -45,7 +46,7 @@ public final class ContextTools {
         try {
             return Reflector.createClassDescriptor(clazz, availableClassNames);
         } catch (ReflectorException e) {
-            throw ContextException.canNotCreateClassDescriptor(clazz, e);
+            throw canNotCreateClassDescriptor(clazz, e);
         }
     }
 

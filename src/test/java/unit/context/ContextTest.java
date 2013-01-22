@@ -11,6 +11,7 @@ public class ContextTest {
     // when class added to context its descriptor become available for id
     // when class added to context its id become available for class
     // if after context creation unknown object found then exception will thrown
+    // if duplicated ids is found then exception occurs
     @Test
     public void smoke() {
 

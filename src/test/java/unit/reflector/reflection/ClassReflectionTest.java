@@ -1,4 +1,4 @@
-package unit.reflector;
+package unit.reflector.reflection;
 
 import biny.core.Reflector;
 import biny.core.ReflectorException;
@@ -6,6 +6,7 @@ import biny.core.context.ContextException;
 import biny.core.meta.*;
 import org.junit.Assert;
 import org.junit.Test;
+import unit.reflector.SimpleObject;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,13 +22,11 @@ public class ClassReflectionTest {
 
     @Test
     public void allFieldReflectedInConstructorParameterOrder() throws ReflectorException, ContextException {
-        Set<String> availableClassesNames = new HashSet<String>();
-        availableClassesNames.add(getClassName(ReflectionTestFixture.class));
-        availableClassesNames.add(getClassName(SimpleObject.class));
+        Set<String> availableClassesNames = createAvailableClasses();
 
         List<AbstractField> fields = Reflector.createClassDescriptor(ReflectionTestFixture.class, availableClassesNames).fields;
 
-        Assert.assertEquals(6, fields.size());
+        Assert.assertEquals(7, fields.size());
 
         Assert.assertEquals(ReflectionTestFixture.PRIMITIVE_LONG_FIELD_NAME, fields.get(0).getName());
         Assert.assertTrue(fields.get(0) instanceof LongField);
@@ -45,22 +44,33 @@ public class ClassReflectionTest {
         Assert.assertTrue(fields.get(4) instanceof ListField);
         Assert.assertTrue(((ListField) fields.get(4)).element instanceof LongListElement);
 
-        Assert.assertEquals(ReflectionTestFixture.LIST_WITH_AGGREGATES_FIELD_NAME, fields.get(5).getName());
+        Assert.assertEquals(ReflectionTestFixture.LIST_WITH_STRINGS_FIELD_NAME, fields.get(5).getName());
         Assert.assertTrue(fields.get(5) instanceof ListField);
-        Assert.assertTrue(((ListField) fields.get(5)).element instanceof AggregateListElement);
-        AggregateListElement listElementMetaData = (AggregateListElement) ((ListField) fields.get(5)).element;
+        Assert.assertTrue(((ListField) fields.get(5)).element instanceof StringListElement);
+
+        Assert.assertEquals(ReflectionTestFixture.LIST_WITH_AGGREGATES_FIELD_NAME, fields.get(6).getName());
+        Assert.assertTrue(fields.get(6) instanceof ListField);
+        Assert.assertTrue(((ListField) fields.get(6)).element instanceof AggregateListElement);
+        AggregateListElement listElementMetaData = (AggregateListElement) ((ListField) fields.get(6)).element;
         Assert.assertEquals(getClassName(SimpleObject.class), listElementMetaData.className);
     }
 
     @Test
     public void identifierReadCorrectly() throws ReflectorException, ContextException {
-        Set<String> availableClassesNames = new HashSet<String>();
-        availableClassesNames.add(getClassName(ReflectionTestFixture.class));
-        availableClassesNames.add(getClassName(SimpleObject.class));
+        Set<String> availableClassesNames = createAvailableClasses();
 
         int identifier = Reflector.createClassDescriptor(ReflectionTestFixture.class, availableClassesNames).identifier;
 
         Assert.assertEquals(ReflectionTestFixture.IDENTIFIER, identifier);
+    }
+
+    private Set<String> createAvailableClasses() {
+        Set<String> availableClassesNames = new HashSet<String>();
+
+        availableClassesNames.add(getClassName(ReflectionTestFixture.class));
+        availableClassesNames.add(getClassName(SimpleObject.class));
+
+        return availableClassesNames;
     }
 
 }
