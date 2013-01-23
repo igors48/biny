@@ -1,6 +1,9 @@
 package unit.context;
 
+import biny.core.context.Context;
+import biny.core.context.ContextException;
 import org.junit.Test;
+import unit.reflector.SimpleObject;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -8,14 +11,21 @@ import org.junit.Test;
  */
 public class ContextTest {
 
-    // when class added to context its descriptor become available for id
-    // when class added to context its id become available for class
     // if after context creation unknown object found then exception will thrown
     // if duplicated ids is found then exception occurs
+
     @Test
-    public void smoke() {
+    public void whenClassAddedToContextItsDescriptorBecomeAvailableForId() throws ContextException {
+        Context context = new Context(SimpleObject.class);
 
+        context.getClassDescriptor(SimpleObject.IDENTIFIER);
+    }
 
+    @Test
+    public void whenClassAddedToContextItsDescriptorBecomeAvailableForClass() throws ContextException {
+        Context context = new Context(SimpleObject.class);
+
+        context.getClassDescriptor(SimpleObject.class);
     }
 
 }

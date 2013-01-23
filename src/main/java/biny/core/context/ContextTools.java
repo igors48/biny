@@ -19,15 +19,15 @@ import static biny.core.context.ContextException.canNotCreateClassDescriptor;
 public final class ContextTools {
 
     public static Map<String, ClassDescriptor> createClassDescriptors(Set<String> availableClassNames, Class... classes) throws ContextException {
-        Map<String, ClassDescriptor> temporary = new HashMap<String, ClassDescriptor>();
+        Map<String, ClassDescriptor> result = new HashMap<String, ClassDescriptor>();
 
         for (Class clazz : classes) {
             ClassDescriptor descriptor;
             descriptor = createClassDescriptor(clazz, availableClassNames);
-            temporary.put(getClassName(clazz), descriptor);
+            result.put(getClassName(clazz), descriptor);
         }
 
-        return temporary;
+        return result;
     }
 
     public static Set<String> createAvailableClassNames(Class... classes) {
