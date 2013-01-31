@@ -2,6 +2,7 @@ package unit.context;
 
 import biny.core.context.Context;
 import biny.core.context.ContextException;
+import org.junit.Before;
 import org.junit.Test;
 import unit.reflector.SimpleObject;
 
@@ -11,21 +12,34 @@ import unit.reflector.SimpleObject;
  */
 public class ContextTest {
 
-    // if after context creation unknown object found then exception will thrown
-    // if duplicated ids is found then exception occurs
+    private static final int INVALID_IDENTIFIER = 165;
+    private static final Class<ContextTest> INVALID_CLASS = ContextTest.class;
+
+    private Context context;
+
+    @Before
+    public void before() throws ContextException {
+        this.context = new Context(SimpleObject.class);
+    }
 
     @Test
     public void whenClassAddedToContextItsDescriptorBecomeAvailableForId() throws ContextException {
-        Context context = new Context(SimpleObject.class);
-
         context.getClassDescriptor(SimpleObject.IDENTIFIER);
     }
 
     @Test
     public void whenClassAddedToContextItsDescriptorBecomeAvailableForClass() throws ContextException {
-        Context context = new Context(SimpleObject.class);
-
         context.getClassDescriptor(SimpleObject.class);
+    }
+
+    @Test(expected = ContextException.class)
+    public void whenClassWithInvalidIdentifierRequestedThenExceptionThrown() throws ContextException {
+        context.getClassDescriptor(INVALID_IDENTIFIER);
+    }
+
+    @Test(expected = ContextException.class)
+    public void whenNotRegisteredClassRequestedThenExceptionThrown() throws ContextException {
+        context.getClassDescriptor(INVALID_CLASS);
     }
 
 }

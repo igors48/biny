@@ -3,6 +3,7 @@ package biny.core.context;
 import biny.core.ClassDescriptor;
 import biny.core.Reflector;
 import biny.core.ReflectorException;
+import biny.core.util.Assert;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,7 +19,25 @@ import static biny.core.context.ContextException.canNotCreateClassDescriptor;
  */
 public final class ContextTools {
 
+    public static void validate(Set<String> availableClassNames, Map<String, ClassDescriptor> descriptors) throws ContextException {
+        Assert.notNull(availableClassNames);
+        Assert.notNull(descriptors);
+
+        Set<Integer> identifiers = new HashSet<Integer>();
+
+        for (ClassDescriptor descriptor : descriptors.values()) {
+
+            if (identifiers.contains(descriptor.identifier)) {
+                throw ContextException.duplicateClassIdentifierFound(descriptor.identifier);
+            } else {
+                identifiers.add(descriptor.identifier);
+            }
+        }
+    }
+
     public static Map<String, ClassDescriptor> createClassDescriptors(Set<String> availableClassNames, Class... classes) throws ContextException {
+        Assert.notNull(availableClassNames);
+
         Map<String, ClassDescriptor> result = new HashMap<String, ClassDescriptor>();
 
         for (Class clazz : classes) {

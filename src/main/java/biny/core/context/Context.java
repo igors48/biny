@@ -10,8 +10,7 @@ import java.util.Set;
 import static biny.core.Reflector.getClassName;
 import static biny.core.context.ContextException.canNotFindDescriptorForClass;
 import static biny.core.context.ContextException.canNotFindDescriptorForClassWithId;
-import static biny.core.context.ContextTools.createAvailableClassNames;
-import static biny.core.context.ContextTools.createClassDescriptors;
+import static biny.core.context.ContextTools.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -24,6 +23,8 @@ public class Context {
     public Context(Class... classes) throws ContextException {
         Set<String> availableClassNames = createAvailableClassNames(classes);
         Map<String, ClassDescriptor> temporary = createClassDescriptors(availableClassNames, classes);
+
+        validate(availableClassNames, temporary);
 
         this.descriptors = Collections.unmodifiableMap(temporary);
     }

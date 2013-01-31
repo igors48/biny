@@ -20,6 +20,10 @@ public class ContextException extends Exception {
         return new ContextException(String.format("Can not find descriptor for class with id [ %d ]", identifier));
     }
 
+    public static ContextException duplicateClassIdentifierFound(int identifier) {
+        return new ContextException(String.format("Duplicate class identifier [ %d ] found", identifier));
+    }
+
     private ContextException(String message) {
         super(message);
     }
