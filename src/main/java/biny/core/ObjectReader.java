@@ -10,6 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static biny.core.ObjectReaderException.*;
+
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 07.01.13
@@ -39,7 +41,7 @@ public class ObjectReader {
 
             return callAggregateConstructor(descriptor, parameters);
         } catch (ContextException e) {
-            throw ObjectReaderException.canNotInstantiateObjectWithId(identifier);
+            throw canNotInstantiateObjectWithId(identifier);
         }
     }
 
@@ -50,15 +52,15 @@ public class ObjectReader {
 
             return ObjectFactory.create(aggregateClass, parameters);
         } catch (ClassNotFoundException e) {
-            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+            throw canNotInstantiateObjectOfClass(descriptor.name);
         } catch (InvocationTargetException e) {
-            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+            throw canNotInstantiateObjectOfClass(descriptor.name);
         } catch (InstantiationException e) {
-            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+            throw canNotInstantiateObjectOfClass(descriptor.name);
         } catch (ReflectorException e) {
-            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+            throw canNotInstantiateObjectOfClass(descriptor.name);
         } catch (IllegalAccessException e) {
-            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
+            throw canNotInstantiateObjectOfClass(descriptor.name);
         }
     }
 
@@ -115,7 +117,7 @@ public class ObjectReader {
             }
 
             if (element == null) {
-                throw ObjectReaderException.canNotInstantiateListElementOfType(elementType.toString());
+                throw canNotInstantiateListElementOfType(elementType.toString());
             }
 
             list.add(element);

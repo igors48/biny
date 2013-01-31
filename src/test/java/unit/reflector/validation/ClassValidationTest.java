@@ -27,6 +27,6 @@ public class ClassValidationTest {
 
     //all constructor parameters must have associated public final fields with same type
     //class must contains public final fields only
-    //members must be long or String
+    //members must be long or String or Aggregate
 
 }
