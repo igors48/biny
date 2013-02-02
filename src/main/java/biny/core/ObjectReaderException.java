@@ -6,7 +6,7 @@ package biny.core;
  */
 public class ObjectReaderException extends Exception {
 
-    private ObjectReaderException(Throwable cause) {
+    public ObjectReaderException(Throwable cause) {
         super(cause);
     }
 

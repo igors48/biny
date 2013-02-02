@@ -6,12 +6,12 @@ package biny.core;
  */
 public interface ReaderAdapter {
 
-    int readAggregateIdentifier();
+    int readAggregateIdentifier() throws ReaderAdapterException;
 
-    long readLong();
+    long readLong() throws ReaderAdapterException;
 
-    String readString();
+    String readString() throws ReaderAdapterException;
 
-    int readListLength();
+    int readListLength() throws ReaderAdapterException;
 
 }

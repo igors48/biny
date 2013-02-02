@@ -30,10 +30,12 @@ public class ObjectWriter {
             throw new ObjectWriterException(e);
         } catch (ContextException e) {
             throw new ObjectWriterException(e);
+        } catch (WriterAdapterException e) {
+            throw new ObjectWriterException(e);
         }
     }
 
-    private void writeAggregate(Object aggregate, WriterAdapter writer) throws IllegalAccessException, ContextException {
+    private void writeAggregate(Object aggregate, WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
         ClassDescriptor descriptor = this.context.getClassDescriptor(aggregate.getClass());
         writer.writeAggregateIdentifier(descriptor.identifier);
 
@@ -44,7 +46,7 @@ public class ObjectWriter {
 
     }
 
-    private void writeList(List list, WriterAdapter writer) throws IllegalAccessException, ContextException {
+    private void writeList(List list, WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
         writer.writeListSize(list.size());
 
         for (Object item : list) {
@@ -52,7 +54,7 @@ public class ObjectWriter {
         }
     }
 
-    private void writeObject(Object object, WriterAdapter writer) throws IllegalAccessException, ContextException {
+    private void writeObject(Object object, WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
         Type type = Reflector.getFieldType(object.getClass());
 
         switch (type) {

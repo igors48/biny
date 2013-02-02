@@ -8,12 +8,12 @@ public interface WriterAdapter {
     // TODO may be writeAggregateEnd ??? for JSON for example. Do not know...
     // TODO send names with values
 
-    void writeAggregateIdentifier(int identifier);
+    void writeAggregateIdentifier(int identifier) throws WriterAdapterException;
 
-    void writeLong(long value);
+    void writeLong(long value) throws WriterAdapterException;
 
-    void writeString(String value);
+    void writeString(String value) throws WriterAdapterException;
 
-    void writeListSize(int listSize);
+    void writeListSize(int listSize) throws WriterAdapterException;
 
 }

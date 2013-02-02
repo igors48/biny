@@ -10,7 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static biny.core.ObjectReaderException.*;
+import static biny.core.ObjectReaderException.canNotInstantiateListElementOfType;
+import static biny.core.ObjectReaderException.canNotInstantiateObjectOfClass;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -28,21 +29,23 @@ public class ObjectReader {
     public Object read(ReaderAdapter adapter) throws ObjectReaderException {
         Assert.notNull(adapter);
 
-        return readAggregate(adapter);
+        try {
+            return readAggregate(adapter);
+        } catch (ReaderAdapterException e) {
+            throw new ObjectReaderException(e);
+        } catch (ContextException e) {
+            throw new ObjectReaderException(e);
+        }
     }
 
-    private Object readAggregate(ReaderAdapter adapter) throws ObjectReaderException {
+    private Object readAggregate(ReaderAdapter adapter) throws ObjectReaderException, ReaderAdapterException, ContextException {
         int identifier = adapter.readAggregateIdentifier();
 
-        try {
-            ClassDescriptor descriptor = this.context.getClassDescriptor(identifier);
+        ClassDescriptor descriptor = this.context.getClassDescriptor(identifier);
 
-            List<Object> parameters = readConstructorParameters(adapter, descriptor);
+        List<Object> parameters = readConstructorParameters(adapter, descriptor);
 
-            return callAggregateConstructor(descriptor, parameters);
-        } catch (ContextException e) {
-            throw canNotInstantiateObjectWithId(identifier);
-        }
+        return callAggregateConstructor(descriptor, parameters);
     }
 
     private Object callAggregateConstructor(ClassDescriptor descriptor, List<Object> parameters) throws ObjectReaderException {
@@ -58,7 +61,7 @@ public class ObjectReader {
         }
     }
 
-    private List<Object> readConstructorParameters(ReaderAdapter adapter, ClassDescriptor descriptor) throws ObjectReaderException, ContextException {
+    private List<Object> readConstructorParameters(ReaderAdapter adapter, ClassDescriptor descriptor) throws ObjectReaderException, ContextException, ReaderAdapterException {
         List<Object> parameters = new ArrayList<Object>();
 
         for (AbstractField current : descriptor.fields) {
@@ -86,7 +89,7 @@ public class ObjectReader {
     }
 
     @SuppressWarnings(value = "unchecked")
-    private Object readList(ReaderAdapter adapter, ListField listField) throws ObjectReaderException, ContextException {
+    private Object readList(ReaderAdapter adapter, ListField listField) throws ObjectReaderException, ContextException, ReaderAdapterException {
         int listLength = adapter.readListLength();
 
         List list = new ArrayList(listLength);
