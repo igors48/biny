@@ -48,16 +48,10 @@ public class ObjectReader {
     private Object callAggregateConstructor(ClassDescriptor descriptor, List<Object> parameters) throws ObjectReaderException {
 
         try {
-            Class aggregateClass = Class.forName(descriptor.name);
-
-            return ObjectFactory.create(aggregateClass, parameters);
-        } catch (ClassNotFoundException e) {
-            throw canNotInstantiateObjectOfClass(descriptor.name);
+            return descriptor.constructor.newInstance(parameters.toArray());
         } catch (InvocationTargetException e) {
             throw canNotInstantiateObjectOfClass(descriptor.name);
         } catch (InstantiationException e) {
-            throw canNotInstantiateObjectOfClass(descriptor.name);
-        } catch (ReflectorException e) {
             throw canNotInstantiateObjectOfClass(descriptor.name);
         } catch (IllegalAccessException e) {
             throw canNotInstantiateObjectOfClass(descriptor.name);

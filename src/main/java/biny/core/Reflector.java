@@ -64,7 +64,7 @@ public class Reflector {
 
         int identifier = findClassIdentifier(clazz);
 
-        return new ClassDescriptor(identifier, getClassName(clazz), fields);
+        return new ClassDescriptor(identifier, getClassName(clazz), constructor, fields);
     }
 
     private static AbstractField getFieldMetaData(Class clazz, Field field, Class fieldClass, Set<String> availableClassNames) throws ReflectorException {
@@ -141,7 +141,7 @@ public class Reflector {
         }
     }
 
-    public static Constructor findConstructor(Class clazz) throws ReflectorException {
+    private static Constructor findConstructor(Class clazz) throws ReflectorException {
         Assert.notNull(clazz);
 
         Constructor[] constructors = clazz.getDeclaredConstructors();
