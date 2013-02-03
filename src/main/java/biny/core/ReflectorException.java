@@ -33,7 +33,7 @@ public class ReflectorException extends Exception {
     }
 
     public static ReflectorException classIsNotAvailable(String className) {
-        return new ReflectorException(String.format("Class [ %s ] is not available", className));
+        return new ReflectorException(String.format("Class [ %s ] is not available in context", className));
     }
 
     public static ReflectorException innerListsAreNotSupported() {
