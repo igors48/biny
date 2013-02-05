@@ -289,9 +289,12 @@
 
         <property file="${dir.build}/${version.property.file.path}"/>
 
+        <property name="project.name.and.version" value="${ant.project.name}-${version}.${build}"/>
+
         <mkdir dir="${dir.release}/lib/"/>
 
-        <jar jarfile="${dir.release}/lib/${ant.project.name}.jar" compress="true">
+        <!-- <jar jarfile="${dir.release}/lib/${ant.project.name}.jar" compress="true"> -->
+        <jar jarfile="${dir.release}/lib/${project.name.and.version}.jar" compress="true">
             <fileset dir="${dir.build}"/>
         </jar>
 
@@ -308,7 +311,8 @@
             <fileset dir="${dir.base}/scripts/"/>
         </copy>
 
-        <zip destfile="${dir.release}/${ant.project.name}-${version}.${build}.zip" basedir="${dir.release}"/>
+        <!-- <zip destfile="${dir.release}/${ant.project.name}-${version}.${build}.zip" basedir="${dir.release}"/> -->
+        <zip destfile="${dir.release}/${project.name.and.version}.zip" basedir="${dir.release}"/>
 
     </target>
 
