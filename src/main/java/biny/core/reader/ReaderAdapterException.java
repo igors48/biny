@@ -6,7 +6,7 @@ package biny.core.reader;
  */
 public class ReaderAdapterException extends Exception {
 
-    public ReaderAdapterException(Throwable cause) {
+    public ReaderAdapterException(final Throwable cause) {
         super(cause);
     }
 

@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
  */
 public class LongField extends AbstractField {
 
-    public LongField(Field field) {
+    public LongField(final Field field) {
         super(Type.LONG, field);
     }
 

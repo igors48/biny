@@ -6,7 +6,7 @@ package biny.core.writer;
  */
 public class ObjectWriterException extends Exception {
 
-    public ObjectWriterException(Throwable cause) {
+    public ObjectWriterException(final Throwable cause) {
         super(cause);
     }
 

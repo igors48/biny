@@ -18,12 +18,12 @@ public class ObjectWriter {
 
     private final Context context;
 
-    public ObjectWriter(Context context) {
+    public ObjectWriter(final Context context) {
         Assert.notNull(context);
         this.context = context;
     }
 
-    public void write(Object object, WriterAdapter writer) throws ObjectWriterException {
+    public final void write(final Object object, final WriterAdapter writer) throws ObjectWriterException {
         Assert.notNull(object);
         Assert.notNull(writer);
 
@@ -38,7 +38,7 @@ public class ObjectWriter {
         }
     }
 
-    private void writeAggregate(Object aggregate, WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
+    private void writeAggregate(final Object aggregate, final WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
         ClassDescriptor descriptor = this.context.getClassDescriptor(aggregate.getClass());
         writer.writeAggregateIdentifier(descriptor.identifier);
 
@@ -49,7 +49,7 @@ public class ObjectWriter {
 
     }
 
-    private void writeList(List list, WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
+    private void writeList(final List list, final WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
         writer.writeListSize(list.size());
 
         for (Object item : list) {
@@ -57,7 +57,7 @@ public class ObjectWriter {
         }
     }
 
-    private void writeObject(Object object, WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
+    private void writeObject(final Object object, final WriterAdapter writer) throws IllegalAccessException, ContextException, WriterAdapterException {
         Type type = Reflector.getFieldType(object.getClass());
 
         switch (type) {
@@ -73,6 +73,8 @@ public class ObjectWriter {
             case LIST:
                 writeList((List) object, writer);
                 break;
+            default:
+                throw new IllegalArgumentException(String.format("Illegal type [ %s ]", type));
         }
     }
 

@@ -16,7 +16,7 @@ import static biny.core.context.Reflector.getClassName;
  */
 public final class ContextTools {
 
-    public static void validate(Set<String> availableClassNames, Map<String, ClassDescriptor> descriptors) throws ContextException {
+    public static void validate(final Set<String> availableClassNames, final Map<String, ClassDescriptor> descriptors) throws ContextException {
         Assert.notNull(availableClassNames);
         Assert.notNull(descriptors);
 
@@ -32,7 +32,7 @@ public final class ContextTools {
         }
     }
 
-    public static Map<String, ClassDescriptor> createClassDescriptors(Set<String> availableClassNames, Class... classes) throws ContextException {
+    public static Map<String, ClassDescriptor> createClassDescriptors(final Set<String> availableClassNames, final Class... classes) throws ContextException {
         Assert.notNull(availableClassNames);
 
         Map<String, ClassDescriptor> result = new HashMap<String, ClassDescriptor>();
@@ -46,7 +46,7 @@ public final class ContextTools {
         return result;
     }
 
-    public static Set<String> createAvailableClassNames(Class... classes) {
+    public static Set<String> createAvailableClassNames(final Class... classes) {
         Set<String> availableClassNames = new HashSet<String>();
 
         for (Class clazz : classes) {
@@ -57,7 +57,7 @@ public final class ContextTools {
         return availableClassNames;
     }
 
-    private static ClassDescriptor createClassDescriptor(Class clazz, Set<String> availableClassNames) throws ContextException {
+    private static ClassDescriptor createClassDescriptor(final Class clazz, final Set<String> availableClassNames) throws ContextException {
 
         try {
             return Reflector.createClassDescriptor(clazz, availableClassNames);

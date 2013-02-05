@@ -10,7 +10,7 @@ public class AggregateListElement extends AbstractListElement {
 
     public final String className;
 
-    public AggregateListElement(String className) {
+    public AggregateListElement(final String className) {
         super(Type.AGGREGATE);
 
         Assert.isValidString(className);

@@ -17,13 +17,13 @@ public class OutputStreamAdapter implements WriterAdapter {
 
     private final DataOutput dataOutput;
 
-    public OutputStreamAdapter(OutputStream outputStream) {
+    public OutputStreamAdapter(final OutputStream outputStream) {
         Assert.notNull(outputStream);
         this.dataOutput = new DataOutputStream(outputStream);
     }
 
     @Override
-    public void writeAggregateIdentifier(int identifier) throws WriterAdapterException {
+    public final void writeAggregateIdentifier(final int identifier) throws WriterAdapterException {
         Assert.greaterOrEqual(identifier, 0, "");
 
         try {
@@ -34,7 +34,7 @@ public class OutputStreamAdapter implements WriterAdapter {
     }
 
     @Override
-    public void writeLong(long value) throws WriterAdapterException {
+    public final void writeLong(final long value) throws WriterAdapterException {
 
         try {
             this.dataOutput.writeLong(value);
@@ -44,7 +44,7 @@ public class OutputStreamAdapter implements WriterAdapter {
     }
 
     @Override
-    public void writeString(String value) throws WriterAdapterException {
+    public final void writeString(final String value) throws WriterAdapterException {
         Assert.isValidString(value);
 
         try {
@@ -55,7 +55,7 @@ public class OutputStreamAdapter implements WriterAdapter {
     }
 
     @Override
-    public void writeListSize(int listSize) throws WriterAdapterException {
+    public final void writeListSize(final int listSize) throws WriterAdapterException {
         Assert.greaterOrEqual(listSize, 0, "");
 
         try {

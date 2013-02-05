@@ -20,12 +20,12 @@ public class ObjectReader {
 
     private final Context context;
 
-    public ObjectReader(Context context) {
+    public ObjectReader(final Context context) {
         Assert.notNull(context);
         this.context = context;
     }
 
-    public Object read(ReaderAdapter adapter) throws ObjectReaderException {
+    public final Object read(final ReaderAdapter adapter) throws ObjectReaderException {
         Assert.notNull(adapter);
 
         try {
@@ -37,7 +37,7 @@ public class ObjectReader {
         }
     }
 
-    private Object readAggregate(ReaderAdapter adapter) throws ObjectReaderException, ReaderAdapterException, ContextException {
+    private Object readAggregate(final ReaderAdapter adapter) throws ObjectReaderException, ReaderAdapterException, ContextException {
         int identifier = adapter.readAggregateIdentifier();
 
         ClassDescriptor descriptor = this.context.getClassDescriptor(identifier);
@@ -47,7 +47,7 @@ public class ObjectReader {
         return callAggregateConstructor(descriptor, parameters);
     }
 
-    private Object callAggregateConstructor(ClassDescriptor descriptor, List<Object> parameters) throws ObjectReaderException {
+    private Object callAggregateConstructor(final ClassDescriptor descriptor, final List<Object> parameters) throws ObjectReaderException {
 
         try {
             return descriptor.constructor.newInstance(parameters.toArray());
@@ -60,7 +60,7 @@ public class ObjectReader {
         }
     }
 
-    private List<Object> readConstructorParameters(ReaderAdapter adapter, ClassDescriptor descriptor) throws ObjectReaderException, ContextException, ReaderAdapterException {
+    private List<Object> readConstructorParameters(final ReaderAdapter adapter, final ClassDescriptor descriptor) throws ObjectReaderException, ContextException, ReaderAdapterException {
         List<Object> parameters = new ArrayList<Object>();
 
         for (AbstractField current : descriptor.fields) {
@@ -79,6 +79,8 @@ public class ObjectReader {
                 case LIST:
                     parameter = readList(adapter, (ListField) current);
                     break;
+                default:
+                    throw new IllegalArgumentException(String.format("Illegal format [ %s ]", current.type));
             }
 
             parameters.add(parameter);
@@ -88,7 +90,7 @@ public class ObjectReader {
     }
 
     @SuppressWarnings(value = "unchecked")
-    private Object readList(ReaderAdapter adapter, ListField listField) throws ObjectReaderException, ContextException, ReaderAdapterException {
+    private Object readList(final ReaderAdapter adapter, final ListField listField) throws ObjectReaderException, ContextException, ReaderAdapterException {
         int listLength = adapter.readListLength();
 
         List list = new ArrayList(listLength);
@@ -110,6 +112,8 @@ public class ObjectReader {
                     break;
                 case LIST:
                     break;
+                default:
+                    throw new IllegalArgumentException(String.format("Illegal format [ %s ]", elementType));
             }
 
             if (element == null) {

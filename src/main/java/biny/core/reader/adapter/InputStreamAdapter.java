@@ -24,7 +24,7 @@ public class InputStreamAdapter implements ReaderAdapter {
     }
 
     @Override
-    public int readAggregateIdentifier() throws ReaderAdapterException {
+    public final int readAggregateIdentifier() throws ReaderAdapterException {
 
         try {
             return this.dataInput.readInt();
@@ -34,7 +34,7 @@ public class InputStreamAdapter implements ReaderAdapter {
     }
 
     @Override
-    public long readLong() throws ReaderAdapterException {
+    public final long readLong() throws ReaderAdapterException {
 
         try {
             return this.dataInput.readLong();
@@ -44,7 +44,7 @@ public class InputStreamAdapter implements ReaderAdapter {
     }
 
     @Override
-    public String readString() throws ReaderAdapterException {
+    public final String readString() throws ReaderAdapterException {
 
         try {
             return this.dataInput.readUTF();
@@ -54,7 +54,7 @@ public class InputStreamAdapter implements ReaderAdapter {
     }
 
     @Override
-    public int readListLength() throws ReaderAdapterException {
+    public final int readListLength() throws ReaderAdapterException {
 
         try {
             return this.dataInput.readInt();

@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
  */
 public class StringField extends AbstractField {
 
-    public StringField(Field field) {
+    public StringField(final Field field) {
         super(Type.STRING, field);
     }
 

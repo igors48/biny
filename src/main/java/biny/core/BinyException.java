@@ -6,7 +6,7 @@ package biny.core;
  */
 public class BinyException extends Exception {
 
-    public BinyException(Throwable cause) {
+    public BinyException(final Throwable cause) {
         super(cause);
     }
 

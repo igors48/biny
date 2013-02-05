@@ -25,7 +25,7 @@ public class Biny {
     private final ObjectWriter objectWriter;
     private final ObjectReader objectReader;
 
-    public Biny(Class... classes) throws BinyException {
+    public Biny(final Class... classes) throws BinyException {
         try {
             this.context = new Context(classes);
 
@@ -36,7 +36,7 @@ public class Biny {
         }
     }
 
-    public byte[] write(Object object) throws BinyException {
+    public final byte[] write(final Object object) throws BinyException {
         Assert.notNull(object);
 
         try {
@@ -51,7 +51,7 @@ public class Biny {
         }
     }
 
-    public Object read(byte[] data) throws BinyException {
+    public final Object read(final byte[] data) throws BinyException {
         Assert.notNull(data);
 
         try {

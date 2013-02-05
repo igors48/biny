@@ -12,7 +12,7 @@ public class ListField extends AbstractField {
 
     public final AbstractListElement element;
 
-    public ListField(AbstractListElement element, Field field) {
+    public ListField(final AbstractListElement element, final Field field) {
         super(Type.LIST, field);
 
         Assert.notNull(element);

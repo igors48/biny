@@ -13,7 +13,7 @@ public abstract class AbstractField {
     public final Type type;
     public final Field field;
 
-    protected AbstractField(Type type, Field field) {
+    protected AbstractField(final Type type, final Field field) {
         Assert.notNull(type);
         this.type = type;
 
@@ -21,7 +21,7 @@ public abstract class AbstractField {
         this.field = field;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.field.getName();
     }
 

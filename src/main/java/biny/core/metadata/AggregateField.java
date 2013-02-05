@@ -12,7 +12,7 @@ public class AggregateField extends AbstractField {
 
     public final String className;
 
-    public AggregateField(String className, Field field) {
+    public AggregateField(final String className, final Field field) {
         super(Type.AGGREGATE, field);
 
         Assert.isValidString(className);

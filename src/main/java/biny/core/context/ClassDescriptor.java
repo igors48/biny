@@ -18,7 +18,7 @@ public class ClassDescriptor {
     public final Constructor constructor;
     public final List<AbstractField> fields;
 
-    public ClassDescriptor(int identifier, String name, Constructor constructor, List<AbstractField> fields) {
+    public ClassDescriptor(final int identifier, final String name, final Constructor constructor, final List<AbstractField> fields) {
         Assert.greater(identifier, 0, "");
         this.identifier = identifier;
 

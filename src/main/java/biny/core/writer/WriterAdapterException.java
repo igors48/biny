@@ -6,7 +6,7 @@ package biny.core.writer;
  */
 public class WriterAdapterException extends Exception {
 
-    public WriterAdapterException(Throwable cause) {
+    public WriterAdapterException(final Throwable cause) {
         super(cause);
     }
 

@@ -19,7 +19,7 @@ public class Context {
 
     private final Map<String, ClassDescriptor> descriptors;
 
-    public Context(Class... classes) throws ContextException {
+    public Context(final Class... classes) throws ContextException {
         Set<String> availableClassNames = createAvailableClassNames(classes);
         Map<String, ClassDescriptor> temporary = createClassDescriptors(availableClassNames, classes);
 
@@ -28,7 +28,7 @@ public class Context {
         this.descriptors = Collections.unmodifiableMap(temporary);
     }
 
-    public ClassDescriptor getClassDescriptor(int identifier) throws ContextException {
+    public final ClassDescriptor getClassDescriptor(final int identifier) throws ContextException {
         Assert.greater(identifier, 0, "");
 
         for (ClassDescriptor candidate : this.descriptors.values()) {
@@ -41,7 +41,7 @@ public class Context {
         throw canNotFindDescriptorForClassWithId(identifier);
     }
 
-    public ClassDescriptor getClassDescriptor(Class clazz) throws ContextException {
+    public final ClassDescriptor getClassDescriptor(final Class clazz) throws ContextException {
         Assert.notNull(clazz);
 
         String className = getClassName(clazz);

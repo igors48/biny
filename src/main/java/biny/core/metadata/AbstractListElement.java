@@ -10,7 +10,7 @@ public abstract class AbstractListElement {
 
     public final Type type;
 
-    protected AbstractListElement(Type type) {
+    protected AbstractListElement(final Type type) {
         Assert.notNull(type);
         this.type = type;
     }
