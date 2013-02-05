@@ -1,8 +1,8 @@
 package unit.writer;
 
-import biny.core.ObjectWriter;
 import biny.core.context.Context;
 import biny.core.context.ContextException;
+import biny.core.writer.ObjectWriter;
 import org.junit.Before;
 import unit.reflector.ObjectWithAggregate;
 import unit.reflector.ObjectWithList;

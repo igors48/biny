@@ -1,6 +1,6 @@
 package unit.writer.adapter;
 
-import biny.core.ReaderAdapter;
+import biny.core.reader.ReaderAdapter;
 import biny.core.util.Assert;
 
 import java.util.Iterator;

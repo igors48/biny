@@ -1,6 +1,6 @@
-package biny.core;
+package biny.core.context;
 
-import static biny.core.Reflector.getClassName;
+import static biny.core.context.Reflector.getClassName;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

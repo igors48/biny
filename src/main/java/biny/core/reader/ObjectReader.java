@@ -1,17 +1,16 @@
-package biny.core;
+package biny.core.reader;
 
+import biny.core.context.ClassDescriptor;
 import biny.core.context.Context;
 import biny.core.context.ContextException;
-import biny.core.meta.AbstractField;
-import biny.core.meta.ListField;
+import biny.core.metadata.AbstractField;
+import biny.core.metadata.ListField;
+import biny.core.metadata.Type;
 import biny.core.util.Assert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static biny.core.ObjectReaderException.canNotInstantiateListElementOfType;
-import static biny.core.ObjectReaderException.canNotInstantiateObjectOfClass;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -53,11 +52,11 @@ public class ObjectReader {
         try {
             return descriptor.constructor.newInstance(parameters.toArray());
         } catch (InvocationTargetException e) {
-            throw canNotInstantiateObjectOfClass(descriptor.name);
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
         } catch (InstantiationException e) {
-            throw canNotInstantiateObjectOfClass(descriptor.name);
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
         } catch (IllegalAccessException e) {
-            throw canNotInstantiateObjectOfClass(descriptor.name);
+            throw ObjectReaderException.canNotInstantiateObjectOfClass(descriptor.name);
         }
     }
 
@@ -114,7 +113,7 @@ public class ObjectReader {
             }
 
             if (element == null) {
-                throw canNotInstantiateListElementOfType(elementType.toString());
+                throw ObjectReaderException.canNotInstantiateListElementOfType(elementType.toString());
             }
 
             list.add(element);

@@ -1,16 +1,15 @@
 package biny.core.context;
 
-import biny.core.ClassDescriptor;
 import biny.core.util.Assert;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import static biny.core.Reflector.getClassName;
 import static biny.core.context.ContextException.canNotFindDescriptorForClass;
 import static biny.core.context.ContextException.canNotFindDescriptorForClassWithId;
 import static biny.core.context.ContextTools.*;
+import static biny.core.context.Reflector.getClassName;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

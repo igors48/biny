@@ -1,8 +1,5 @@
 package biny.core.context;
 
-import biny.core.ClassDescriptor;
-import biny.core.Reflector;
-import biny.core.ReflectorException;
 import biny.core.util.Assert;
 
 import java.util.HashMap;
@@ -10,8 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static biny.core.Reflector.getClassName;
 import static biny.core.context.ContextException.canNotCreateClassDescriptor;
+import static biny.core.context.Reflector.getClassName;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

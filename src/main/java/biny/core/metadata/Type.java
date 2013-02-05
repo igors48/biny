@@ -1,4 +1,4 @@
-package biny.core;
+package biny.core.metadata;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

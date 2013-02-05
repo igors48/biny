@@ -1,7 +1,7 @@
 package unit.writer.adapter;
 
-import biny.core.WriterAdapter;
 import biny.core.util.Assert;
+import biny.core.writer.WriterAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

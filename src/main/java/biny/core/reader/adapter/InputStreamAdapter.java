@@ -1,7 +1,7 @@
-package biny.core.adapter;
+package biny.core.reader.adapter;
 
-import biny.core.ReaderAdapter;
-import biny.core.ReaderAdapterException;
+import biny.core.reader.ReaderAdapter;
+import biny.core.reader.ReaderAdapterException;
 import biny.core.util.Assert;
 
 import java.io.DataInput;

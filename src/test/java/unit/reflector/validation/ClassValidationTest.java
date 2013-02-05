@@ -1,13 +1,13 @@
 package unit.reflector.validation;
 
-import biny.core.Reflector;
-import biny.core.ReflectorException;
+import biny.core.context.Reflector;
+import biny.core.context.ReflectorException;
 import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static biny.core.Reflector.getClassName;
+import static biny.core.context.Reflector.getClassName;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

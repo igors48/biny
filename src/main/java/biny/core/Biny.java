@@ -1,10 +1,16 @@
 package biny.core;
 
-import biny.core.adapter.InputStreamAdapter;
-import biny.core.adapter.OutputStreamAdapter;
 import biny.core.context.Context;
 import biny.core.context.ContextException;
+import biny.core.reader.ObjectReader;
+import biny.core.reader.ObjectReaderException;
+import biny.core.reader.ReaderAdapter;
+import biny.core.reader.adapter.InputStreamAdapter;
 import biny.core.util.Assert;
+import biny.core.writer.ObjectWriter;
+import biny.core.writer.ObjectWriterException;
+import biny.core.writer.WriterAdapter;
+import biny.core.writer.adapter.OutputStreamAdapter;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

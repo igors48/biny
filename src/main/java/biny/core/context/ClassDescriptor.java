@@ -1,6 +1,6 @@
-package biny.core;
+package biny.core.context;
 
-import biny.core.meta.AbstractField;
+import biny.core.metadata.AbstractField;
 import biny.core.util.Assert;
 
 import java.lang.reflect.Constructor;

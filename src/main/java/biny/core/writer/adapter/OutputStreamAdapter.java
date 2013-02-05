@@ -1,8 +1,8 @@
-package biny.core.adapter;
+package biny.core.writer.adapter;
 
-import biny.core.WriterAdapter;
-import biny.core.WriterAdapterException;
 import biny.core.util.Assert;
+import biny.core.writer.WriterAdapter;
+import biny.core.writer.WriterAdapterException;
 
 import java.io.DataOutput;
 import java.io.DataOutputStream;

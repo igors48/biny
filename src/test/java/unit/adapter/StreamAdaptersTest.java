@@ -1,11 +1,11 @@
 package unit.adapter;
 
-import biny.core.ReaderAdapter;
-import biny.core.ReaderAdapterException;
-import biny.core.WriterAdapter;
-import biny.core.WriterAdapterException;
-import biny.core.adapter.InputStreamAdapter;
-import biny.core.adapter.OutputStreamAdapter;
+import biny.core.reader.ReaderAdapter;
+import biny.core.reader.ReaderAdapterException;
+import biny.core.reader.adapter.InputStreamAdapter;
+import biny.core.writer.WriterAdapter;
+import biny.core.writer.WriterAdapterException;
+import biny.core.writer.adapter.OutputStreamAdapter;
 import org.junit.Assert;
 import org.junit.Test;
 

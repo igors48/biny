@@ -1,6 +1,4 @@
-package biny.core.meta;
-
-import biny.core.Type;
+package biny.core.metadata;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

@@ -1,6 +1,6 @@
 package unit.writer;
 
-import biny.core.ObjectWriterException;
+import biny.core.writer.ObjectWriterException;
 import org.junit.Assert;
 import org.junit.Test;
 import unit.reflector.SimpleObject;

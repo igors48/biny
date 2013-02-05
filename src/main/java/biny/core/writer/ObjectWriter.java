@@ -1,8 +1,11 @@
-package biny.core;
+package biny.core.writer;
 
+import biny.core.context.ClassDescriptor;
 import biny.core.context.Context;
 import biny.core.context.ContextException;
-import biny.core.meta.AbstractField;
+import biny.core.context.Reflector;
+import biny.core.metadata.AbstractField;
+import biny.core.metadata.Type;
 import biny.core.util.Assert;
 
 import java.util.List;

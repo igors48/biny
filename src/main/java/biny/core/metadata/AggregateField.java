@@ -1,6 +1,5 @@
-package biny.core.meta;
+package biny.core.metadata;
 
-import biny.core.Type;
 import biny.core.util.Assert;
 
 import java.lang.reflect.Field;
