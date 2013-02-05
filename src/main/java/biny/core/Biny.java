@@ -21,16 +21,16 @@ import java.io.ByteArrayOutputStream;
  */
 public class Biny {
 
-    private final Context context;
     private final ObjectWriter objectWriter;
     private final ObjectReader objectReader;
 
     public Biny(final Class... classes) throws BinyException {
-        try {
-            this.context = new Context(classes);
 
-            this.objectWriter = new ObjectWriter(this.context);
-            this.objectReader = new ObjectReader(this.context);
+        try {
+            Context context = new Context(classes);
+
+            this.objectWriter = new ObjectWriter(context);
+            this.objectReader = new ObjectReader(context);
         } catch (ContextException e) {
             throw new BinyException(e);
         }
